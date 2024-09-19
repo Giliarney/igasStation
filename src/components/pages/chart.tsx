@@ -83,7 +83,7 @@ export function Charts() {
   const { data: dadosResponse } = useQuery<Posto[]>({
     queryKey: ["gets-prices"],
     queryFn: async () => {
-      const response = await fetch(`http://localhost:3001/gas_station_prices`);
+      const response = await fetch(`https://api-igas.onrender.com/gas_station_prices`);
       if (!response.ok) throw new Error("Network response was not ok");
   
       const data = await response.json();
@@ -131,7 +131,7 @@ export function Charts() {
   const { data: enderecoPostos } = useQuery<EnderecoPostos[]>({
     queryKey: ["gets-enderecoPostos"],
     queryFn: async () => {
-      const response = await fetch(`http://localhost:3001/gas_station_average_price`);
+      const response = await fetch(`https://api-igas.onrender.com/gas_station_average_price`);
       if (!response.ok) throw new Error("Network response was not ok");
   
       const data = await response.json();

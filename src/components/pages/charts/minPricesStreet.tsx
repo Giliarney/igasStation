@@ -39,7 +39,7 @@ const MinPricesStreets: React.FC = () => {
   const { data: dataStreet } = useQuery<StreetMin[]>({
     queryKey: ["get-street-min-price"],
     queryFn: async () => {
-      const response = await fetch(`http://localhost:3001/gas_station_min_price`);
+      const response = await fetch(`https://api-igas.onrender.com/gas_station_min_price`);
       if (!response.ok) throw new Error("Network response was not ok");
 
       const data = await response.json();

@@ -38,7 +38,7 @@ const Page: React.FC = () => {
     const { data: dataStreet} = useQuery<Bairros[]>({
       queryKey: ["get-street"],
       queryFn: async () => {
-        const response = await fetch(`http://localhost:3001/street`);
+        const response = await fetch(`https://api-igas.onrender.com/street`);
         if (!response.ok) throw new Error("Network response was not ok");
   
         const data = await response.json();
@@ -50,7 +50,7 @@ const Page: React.FC = () => {
     const { data: dataGasStation} = useQuery<Postos[]>({
       queryKey: ["get-gas_station"],
       queryFn: async () => {
-        const response = await fetch(`http://localhost:3001/gas_station`);
+        const response = await fetch(`https://api-igas.onrender.com/gas_station`);
         if (!response.ok) throw new Error("Network response was not ok");
   
         const data = await response.json();

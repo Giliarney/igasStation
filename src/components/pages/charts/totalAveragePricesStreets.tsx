@@ -92,7 +92,7 @@ export function TotalAveragePricesStreets() {
           const endDateFormatted = formatDate(endDate || null);
           const selecteStreetRight = selectedStreet === undefined ? '' : selectedStreet
       
-          const url =  `http://localhost:3001/average_price?bairro=${selecteStreetRight}&data_inicio=${startDateFormatted}&data_fim=${endDateFormatted}`;
+          const url =  `https://api-igas.onrender.com/average_price?bairro=${selecteStreetRight}&data_inicio=${startDateFormatted}&data_fim=${endDateFormatted}`;
 
         const response = await fetch(url);
       
@@ -113,7 +113,7 @@ export function TotalAveragePricesStreets() {
     const { data: dataStreet} = useQuery<Bairros[]>({
         queryKey: ["get-street"],
         queryFn: async () => {
-          const response = await fetch(`http://localhost:3001/street`);
+          const response = await fetch(`https://api-igas.onrender.com/street`);
           if (!response.ok) throw new Error("Network response was not ok");
     
           const data = await response.json();
