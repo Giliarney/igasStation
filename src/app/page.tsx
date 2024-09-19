@@ -129,8 +129,8 @@ const Page: React.FC = () => {
                   </SelectTrigger>
                     <SelectContent className="text-slate-600 ">
                       <SelectItem value="Todos">Todos Bairros</SelectItem>
-                      {streets.map((item) => 
-                        <SelectItem value={item.bairro}>{item.bairro}</SelectItem>
+                      {streets.map((item, key) => 
+                        <SelectItem key={key} value={item.bairro}>{item.bairro}</SelectItem>
                       )}
                     </SelectContent>
                 </Select>
@@ -144,8 +144,8 @@ const Page: React.FC = () => {
                   </SelectTrigger>
                   <SelectContent className="text-slate-600">
                     <SelectItem value="Todos">Todos Postos</SelectItem>
-                    {gasStation.map((item) => 
-                      <SelectItem value={item.nome}>{item.nome}</SelectItem>
+                    {gasStation.map((item, key) => 
+                      <SelectItem key={key} value={item.nome}>{item.nome}</SelectItem>
                     )}
                   </SelectContent>
                 </Select>

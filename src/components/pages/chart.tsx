@@ -47,29 +47,6 @@ export interface EnderecoPostos {
   gasolina_comum: number
 }
 
-
-const chartConfig = {
-  views: {
-    label: "Preço R$",
-  },
-  diesel: {
-    label: "Diesel",
-    color: "hsl(var(--chart-1))",
-  },
-  etanol: {
-    label: "Etanol",
-    color: "hsl(var(--chart-2))",
-  },
-  gasolina_aditivada: {
-    label: "Gasolina Aditivada",
-    color: "hsl(var(--chart-3))",
-  },
-  gasolina_comum: {
-    label: "Gasolina Comum",
-    color: "hsl(var(--chart-4))",
-  },
-} satisfies ChartConfig
-
 export function Charts() {
   const { data: dadosResponse } = useQuery<Posto[]>({
     queryKey: ["gets-prices"],
@@ -82,23 +59,7 @@ export function Charts() {
       return data;
     },
   });
-  
-  const data = dadosResponse || [];
 
-  const findMinValue = (data: Posto[], property: keyof Posto): number | string | null => {
-    if (data.length === 0) {
-      return null; // Return null if the array is empty
-    }
-  
-    let minValue = data[0][property]; // Start with the first element's property value
-    for (const item of data) {
-
-      if (item[property] < minValue && item[property] !== null) {
-        minValue = item[property];
-      }
-    }
-    return minValue;
-  };
   
   const { data: enderecoPostos } = useQuery<EnderecoPostos[]>({
     queryKey: ["gets-enderecoPostos"],
