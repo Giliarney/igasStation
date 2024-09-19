@@ -178,8 +178,8 @@ export function TotalAveragePricesStreets() {
                     <MapPin className="h-4 w-4 opacity-50"></MapPin>
                 </SelectTrigger>
                 <SelectContent className="text-slate-600 ">
-                    {streets.map((item) => 
-                    <SelectItem value={item.bairro}>{item.bairro}</SelectItem>
+                    {streets.map((item, key) => 
+                    <SelectItem key={key} value={item.bairro}>{item.bairro}</SelectItem>
                     )}
                 </SelectContent>
             </Select>

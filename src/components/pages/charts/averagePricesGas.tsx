@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, XAxis} from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { useQuery } from "@tanstack/react-query";
@@ -89,24 +89,24 @@ const MinPricesStreets: React.FC = () => {
     .filter((posto) => posto[activeChart] > 0); // Remove valores nulos ou zero
 
   // Initialize minPrice with a valid numeric value
-  const minPrice = filteredData.reduce(
-    (min: any, post:any) => {
-      const currentPrice = post[activeChart] as number;
-      const minPriceValue = min[activeChart] as number;
+const minPrice = filteredData.reduce(
+  (min, post) => {
+    const currentPrice = post[activeChart] as number;
+    const minPriceValue = min[activeChart] as number;
 
-      if (typeof currentPrice === "number" && currentPrice < minPriceValue) {
-        return post;
-      }
-      return min;
-    },
-    {
-      nome: "Não tem dados com este posto e bairro",
-      diesel: '0',
-      etanol: '0',
-      gasolina_aditivada: '0',
-      gasolina_comum: '0',
+    if (currentPrice < minPriceValue) {
+      return post;
     }
-  );
+    return min;
+  },
+  {
+    nome: "Não tem dados com este posto e bairro",
+    diesel: 0,
+    etanol: 0,
+    gasolina_aditivada: 0,
+    gasolina_comum: 0,
+  }
+);
 
   return (
     <Card className="">
