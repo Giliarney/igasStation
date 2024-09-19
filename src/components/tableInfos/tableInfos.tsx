@@ -18,7 +18,6 @@ export interface Posto {
 export default function TableInfos({ selectedPosto, selectedStreet, selectedOrder}: { selectedPosto: string | null, selectedStreet: string | null, selectedOrder: string | null}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [setSelectedOrder] = useState<string | null>(null);
 
   const { data: dadosResponse, isLoading, error } = useQuery<Posto[]>({
     queryKey: ["get-gas-station-prices"],

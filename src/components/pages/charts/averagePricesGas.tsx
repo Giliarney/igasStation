@@ -44,7 +44,7 @@ const MinPricesStreets: React.FC = () => {
   const { data: dadosResponse, isLoading, error } = useQuery<Posto[]>({
     queryKey: ["get-gas-station-prices"],
     queryFn: async () => {
-      const response = await fetch(`http://localhost:3001/gas_station_prices`);
+      const response = await fetch(`https://api-igas.onrender.com/gas_station_prices`);
       if (!response.ok) throw new Error("Network response was not ok");
 
       const data = await response.json();

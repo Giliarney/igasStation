@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Menu, ChartSpline, List, CircleHelp } from 'lucide-react';
 import Link from "next/link"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, } from "@/components/ui/tooltip"
-import { ModeToggle } from "@/components/toggletheme/toggletheme"
 
 interface HeaderProps {
     setView: React.Dispatch<React.SetStateAction<"tabela" | "graficos">>;

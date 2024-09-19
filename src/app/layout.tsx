@@ -1,7 +1,6 @@
 "use client"
 
-import type { Metadata } from "next";
-import { Inter, Heebo } from "next/font/google";
+import { Heebo } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme/theme-provider";
@@ -10,11 +9,9 @@ import { ReactNode } from "react";
 import React, { useState } from "react";
 const queryClient = new QueryClient();
 
-const inter = Inter({ subsets: ["latin"] });
 const heebo = Heebo({weight:'500',  subsets: ["latin"]} );
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
-  const [view, setView] = useState<'tabela' | 'graficos'>('tabela');
 
   return (
     <html lang="pt-br">

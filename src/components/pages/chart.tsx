@@ -5,22 +5,13 @@ import Comum from '@/assets/Frame 40.svg';
 import Etanol from '@/assets/Frame 43.svg';
 import Diesel from '@/assets/Frame 42.svg';
 import * as React from "react"
-import { Bar, BarChart, XAxis,  Area,AreaChart, CartesianGrid, } from "recharts"
-import { Icon, TrendingUp } from "lucide-react"
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardFooter,
-  CardTitle,
 } from "@/components/ui/card"
 import {
   ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
 } from "@/components/ui/chart"
 import {
   Carousel,

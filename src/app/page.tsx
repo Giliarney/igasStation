@@ -1,7 +1,7 @@
 "use client"
 import TableInfos from "@/components/tableInfos/tableInfos"
 import { Select,  SelectContent,  SelectItem,  SelectTrigger,  SelectValue, } from "@/components/ui/select"
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import React, { useState } from "react";
@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {Popover,  PopoverContent,  PopoverTrigger, } from "@/components/ui/popover"
 import Header from "@/components/header";
-import { ListFilter, Fuel, MapPin, Droplet  } from 'lucide-react';
+import { ListFilter, Fuel, MapPin  } from 'lucide-react';
 import {Charts} from '@/components/pages/chart'
 
 export interface Combustiveis {
@@ -26,7 +26,6 @@ export interface Postos {
 }
 
 const Page: React.FC = () => {
-    const [date, setDate] = React.useState<Date>();
     const [view, setView] = useState<"tabela" | "graficos">("tabela");
     const [selectedPosto, setSelectedPosto] = useState<string | null>(null);
     const [selectedStreet, setSelectedStreet] = useState('Todos');
@@ -66,8 +65,6 @@ const Page: React.FC = () => {
       return date ? date.toISOString().split('T')[0] : '';
     };
     
-    const startDateFormatted = formatDate(startDate || null);
-    const endDateFormatted = formatDate(endDate || null);
 
     return(
       <>

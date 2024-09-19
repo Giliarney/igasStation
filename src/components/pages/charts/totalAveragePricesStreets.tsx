@@ -2,13 +2,12 @@
 
 import { Select,  SelectContent,  SelectItem,  SelectTrigger,  SelectValue, } from "@/components/ui/select"
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import {
@@ -18,7 +17,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import React, { useState } from "react";
-import { ListFilter, MapPin, Droplet  } from 'lucide-react';
+import { MapPin  } from 'lucide-react';
 import { Calendar as CalendarIcon } from "lucide-react"
 import {Popover,  PopoverContent,  PopoverTrigger, } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
