@@ -11,9 +11,6 @@ import {
   CardContent,
 } from "@/components/ui/card"
 import {
-  ChartConfig,
-} from "@/components/ui/chart"
-import {
   Carousel,
   CarouselContent,
   CarouselItem,
@@ -48,19 +45,6 @@ export interface EnderecoPostos {
 }
 
 export function Charts() {
-  const { data: dadosResponse } = useQuery<Posto[]>({
-    queryKey: ["gets-prices"],
-    queryFn: async () => {
-      const response = await fetch(`https://api-igas.onrender.com/gas_station_prices`);
-      if (!response.ok) throw new Error("Network response was not ok");
-  
-      const data = await response.json();
-  
-      return data;
-    },
-  });
-
-  
   const { data: enderecoPostos } = useQuery<EnderecoPostos[]>({
     queryKey: ["gets-enderecoPostos"],
     queryFn: async () => {
