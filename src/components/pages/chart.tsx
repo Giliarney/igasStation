@@ -100,25 +100,6 @@ export function Charts() {
     return minValue;
   };
   
-  // Example: Get the minimum 'gasolina_comum' value
-  const minDiesel = findMinValue(data, 'diesel');
-  const minEtanol = findMinValue(data, 'etanol');
-  const minGasolinaAditivada = findMinValue(data, 'gasolina_aditivada');
-  const minGasolinaComum = findMinValue(data, 'gasolina_comum');
-
-  const [activeChart, setActiveChart] =
-    React.useState<keyof typeof chartConfig>("diesel")
-
-  const total = React.useMemo(
-    () => ({
-      diesel: `R$ ${minDiesel}` || 0,
-      etanol: `R$ ${minEtanol}` || 0,
-      gasolina_aditivada:  `R$ ${minGasolinaAditivada}` || 0,
-      gasolina_comum: `R$ ${minGasolinaComum}` || 0,
-    }),
-    []
-  )
-
   const { data: enderecoPostos } = useQuery<EnderecoPostos[]>({
     queryKey: ["gets-enderecoPostos"],
     queryFn: async () => {

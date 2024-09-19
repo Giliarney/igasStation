@@ -60,12 +60,7 @@ const Page: React.FC = () => {
   
     const streets = dataStreet || [];
     const gasStation = dataGasStation || [];
-
-    const formatDate = (date: Date | null) => {
-      return date ? date.toISOString().split('T')[0] : '';
-    };
     
-
     return(
       <>
         <Header setView={setView}/>

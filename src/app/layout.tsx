@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode } from "react";
-import React, { useState } from "react";
 const queryClient = new QueryClient();
 
 const heebo = Heebo({weight:'500',  subsets: ["latin"]} );
