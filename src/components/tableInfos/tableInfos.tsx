@@ -20,7 +20,7 @@ export interface Posto {
 export default function TableInfos({ selectedPosto, selectedStreet, selectedOrder}: { selectedPosto: string | null, selectedStreet: string | null, selectedOrder: string | null}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-
+const [exportBairro, setExportBairro] = useState<string | "Todos">("Todos");
   const { data: dadosResponse, isLoading, error } = useQuery<Posto[]>({
     queryKey: ["get-gas-station-prices"],
     queryFn: async () => {
