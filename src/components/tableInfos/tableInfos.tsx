@@ -107,7 +107,7 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
   return (
     <div className='flex flex-col gap-4'>
       <button    onClick={downloadTableAsExcel} >Download</button>
-      <Table className='rounded-lg my-table'>
+      <Table id='my-table' className='rounded-lg my-table'>
         <TableHeader className="text-white bg-slate-700 rounded-lg">
           <TableRow className='min-w-24'>
             <TableHead className='min-w-52'>Posto</TableHead>
