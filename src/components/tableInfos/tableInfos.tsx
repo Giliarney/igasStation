@@ -96,6 +96,14 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
       setCurrentPage(newPage);
     }
   };
+
+    // Função para filtrar os dados pelo bairro selecionado
+  const getFilteredDataByBairro = () => {
+    if (exportBairro === "Todos") {
+      return allPrecos; // Exporta todos os dados
+    }
+    return allPrecos.filter((item) => item.bairro === exportBairro); // Exporta somente os dados do bairro selecionado
+  };
     const downloadDataAsExcel = () => {
     const dataToExport = getFilteredDataByBairro();
     const worksheet = XLSX.utils.json_to_sheet(dataToExport); // Gera a planilha a partir dos dados filtrados
