@@ -3,6 +3,8 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { BeatLoader } from 'react-spinners';
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext, PaginationLink, PaginationLast, PaginationFisrt } from "@/components/ui/pagination"
+import * as XLSX from 'xlsx'
+
 
 export interface Posto {
   posto_nome: string;
@@ -19,6 +21,13 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
+  const downloadTableAsExcel = () => {
+  const table = document.getElementById('my-table');
+  const worksheet = XLSX.utils.table_to_sheet(table);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+  XLSX.writeFile(workbook, 'tabela.xlsx');
+};
   const { data: dadosResponse, isLoading, error } = useQuery<Posto[]>({
     queryKey: ["get-gas-station-prices"],
     queryFn: async () => {
@@ -97,7 +106,8 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
 
   return (
     <div className='flex flex-col gap-4'>
-      <Table className='rounded-lg'>
+      <button    onClick={downloadTableAsExcel} >Download</button>
+      <Table className='rounded-lg my-table'>
         <TableHeader className="text-white bg-slate-700 rounded-lg">
           <TableRow className='min-w-24'>
             <TableHead className='min-w-52'>Posto</TableHead>
