@@ -21,13 +21,6 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
-  const downloadTableAsExcel = () => {
-  const table = document.getElementById('my-table');
-  const worksheet = XLSX.utils.table_to_sheet(table);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-  XLSX.writeFile(workbook, 'tabela.xlsx');
-};
   const { data: dadosResponse, isLoading, error } = useQuery<Posto[]>({
     queryKey: ["get-gas-station-prices"],
     queryFn: async () => {
@@ -103,10 +96,38 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
       setCurrentPage(newPage);
     }
   };
+    const downloadDataAsExcel = () => {
+    const dataToExport = getFilteredDataByBairro();
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport); // Gera a planilha a partir dos dados filtrados
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    XLSX.writeFile(workbook, `dados_${exportBairro}.xlsx`);
+  };
+
+  // Coletar todos os bairros disponíveis para o seletor
+  const bairros = Array.from(new Set(allPrecos.map(item => item.bairro)));
 
   return (
     <div className='flex flex-col gap-4'>
-      <button    onClick={downloadTableAsExcel} >Download</button>
+      <div className="flex gap-4 items-center">
+        <label htmlFor="export-bairro">Exportar por bairro:</label>
+        <select
+          id="export-bairro"
+          value={exportBairro}
+          onChange={(e) => setExportBairro(e.target.value)}
+          className="p-2 border border-gray-300 rounded"
+        >
+          <option value="Todos">Todos</option>
+          {bairros.map((bairro, index) => (
+            <option key={index} value={bairro}>
+              {bairro}
+            </option>
+          ))}
+        </select>
+        <button onClick={downloadDataAsExcel} className="p-2 bg-blue-500 text-white rounded">
+          Download Dados ({exportBairro})
+        </button>
+      </div>
       <Table id='my-table' className='rounded-lg my-table'>
         <TableHeader className="text-white bg-slate-700 rounded-lg">
           <TableRow className='min-w-24'>
