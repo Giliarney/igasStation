@@ -109,53 +109,54 @@ const minPrice = filteredData.reduce(
 );
 
   return (
-    <Card className="">
-      <CardHeader className="flex flex-col h-36 space-y-0 border-b p-0 sm:flex-row">
-        <div className="w-full flex flex-col items-center sm:py-6 text-start">
-          <CardTitle className="self-start w-full px-6 text-slate-700">Histórico</CardTitle>
-          <h2 className="self-start px-6 text-slate-700">Preços de Combustível</h2>
-          <CardDescription className="self-start px-6">
-            22 de Ago 2024 - 13 de Set 2024
-          </CardDescription>
+    <Card className="w-full">
+      <CardHeader className="flex flex-col h-max border-b w-full p-0 pt-4 pb-0 lg:p-0 lg:flex-col">
+        <div className="w-full flex flex-col lg:flex-row items-center gap-4 sm:py-6 text-center relative">
+          <div className="w-full h-full flex flex-col gap-4">
+            <CardTitle className=" w-full px-6 text-slate-700">Histórico dos Preços de Combustíveis</CardTitle>
+            <CardDescription className=" px-6">
+              22 de Ago 2024 - 13 de Set 2024
+            </CardDescription>
+          </div>
 
-         <div className="flex gap-6 w-full p-2 px-6">
-          <select
-            value={selectedStreet}
-            onChange={(e) => setSelectedStreet(e.target.value)}
-            className=" border rounded focus-outline-none hover:none focus:outline-none text-sm h-8 text-slate-500"
-          >
-            <option value="Todos" className="text-sm">Todos os Bairros</option>
-            {uniqueStreets.map((bairro) => (
-              <option key={bairro} value={bairro} className="text-sm">
-                {bairro}
-              </option>
-            ))}
-          </select>
+          <div className="flex items-center gap-4 w-full h-full pt-4 px-4 md:px-6 absolute top-[115px] sm:top-[137px] z-10">
+            <select
+              value={selectedStreet}
+              onChange={(e) => setSelectedStreet(e.target.value)}
+              className=" border w-[120px] sm:w-[140px] rounded hover:outline-none hover:bg-none hover:none focus:outline-none cursor-pointer text-sm h-8 text-slate-500"
+            >
+              <option value="Todos" className="text-sm rounded-md border-none outline-none hover:cursor-pointer">Todos os Bairros</option>
+              {uniqueStreets.map((bairro) => (
+                <option key={bairro} value={bairro} className="text-sm">
+                  {bairro}
+                </option>
+              ))}
+            </select>
 
-          {/* Filtro por posto */}
-          <select
-            value={selectedPosto}
-            onChange={(e) => setSelectedPosto(e.target.value)}
-            className="border rounded text-sm h-8 text-slate-500"
-          >
-            <option value="Todos" className="text-sm">Todos os Postos</option>
-            {uniquePostos.map((posto) => (
-              <option key={posto} value={posto} className="text-sm">
-                {posto}
-              </option>
-            ))}
-          </select>
+            {/* Filtro por posto */}
+            <select
+              value={selectedPosto}
+              onChange={(e) => setSelectedPosto(e.target.value)}
+              className="border w-[120px]  sm:w-[180px] rounded hover:outline-none hover:bg-none hover:none focus:outline-none cursor-pointer text-sm h-8 text-slate-500"
+            >
+              <option value="Todos" className="text-sm">Todos os Postos</option>
+              {uniquePostos.map((posto) => (
+                <option key={posto} value={posto} className="text-sm">
+                  {posto === "Auto Posto Esmig Shell" ? posto.slice(5,17) : posto}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-        </div>
 
-        <div className="flex p-0 m-0">
+        <div className="flex w-full h-full p-0 m-0 text-sm lg:text-base">
           {Object.keys(chartConfig).map((key) => {
             const chart = key as keyof typeof chartConfig;
             return (
               <button
                 key={chart}
                 data-active={activeChart === chart}
-                className="w-24 relative z-30 flex justify-center border-t text-center items-center even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
+                className="w-full h-12 relative p-1 z-30 flex justify-center border-t text-center items-center  data-[active=true]:bg-slate-700 data-[active=true]:text-white sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
                 onClick={() => setActiveChart(chart)}
               >
                 {chartConfig[chart].label}
@@ -163,9 +164,10 @@ const minPrice = filteredData.reduce(
             );
           })}
         </div>
+
       </CardHeader>
       <CardContent className="px-2 sm:p-6">
-        <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
+        <ChartContainer config={chartConfig} className="aspect-auto h-[360px] sm:h-[300px] w-full">
           <AreaChart data={filteredData} margin={{ left: 12, right: 12 }}>
             <CartesianGrid vertical={false} />
             <XAxis dataKey="nome" tick={false} />
@@ -186,14 +188,6 @@ const minPrice = filteredData.reduce(
             />
           </AreaChart>
         </ChartContainer>
-        <div className="mt-4">
-          <span className="text-slate-700">
-            Posto com o menor preço de {chartConfig[activeChart].label}:
-          </span>{" "}
-          <span className="text-slate-500">
-            {minPrice.nome} - R$ {minPrice[activeChart]}
-          </span>
-        </div>
       </CardContent>
     </Card>
   );

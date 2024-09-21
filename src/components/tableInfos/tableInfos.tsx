@@ -1,12 +1,12 @@
 "use client"
-import { useState, useEffect  } from 'react';
+import { useState } from 'react';
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { BeatLoader } from 'react-spinners';
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext, PaginationLink, PaginationLast, PaginationFisrt } from "@/components/ui/pagination";
 import ExcelJS from 'exceljs';
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"; // Import Popover components
-import { Download } from "lucide-react"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Download } from "lucide-react";
 
 export interface Posto {
   posto_nome: string;
@@ -22,18 +22,8 @@ export interface Posto {
 export default function TableInfos({ selectedPosto, selectedStreet, selectedOrder }: { selectedPosto: string | null, selectedStreet: string | null, selectedOrder: string | null }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-  const [exportBairro, setExportBairro] = useState<string | "Todos">("Todos");
-  const [ ,setSelectedBairro] = useState<string | null>(null); // Add state for selected bairro
+  const [exportBairro, setExportBairro] = useState<string | null>("Todos");
   const [isOpen, setIsOpen] = useState(false);
-  
-  useEffect(() => {
-    if (exportBairro) {
-      setTimeout(() => {
-        downloadDataAsExcel();
-      }, 1000); // Ajuste o tempo conforme necessário
-  // Limpa o timer se o componente desmontar ou exportBairro mudar
-    }
-  }, [exportBairro]);
 
   const { data: dadosResponse, isLoading, error } = useQuery<Posto[]>({
     queryKey: ["get-gas-station-prices"],
@@ -42,7 +32,7 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
       if (!response.ok) throw new Error("Network response was not ok");
 
       const data = await response.json();
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise(resolve => setTimeout(resolve, 200));
 
       return data;
     },
@@ -51,8 +41,8 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center">
-        <BeatLoader color="#36d7b7" size={15} />
+      <div className="flex flex-col w-full items-center justify-center">
+        <BeatLoader color="#36d7b7" size={25} />
         <span className="text-slate-700">Carregando...</span>
       </div>
     );
@@ -82,7 +72,7 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
       return a.bairro.localeCompare(b.bairro);
     }
 
-    return 0; // Se não houver critério de ordenação
+    return 0;
   });
 
   const allPrecos = sortedData.map((posto) => ({
@@ -96,12 +86,10 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
     diesel: posto.diesel || "N/A",
   }));
 
-  // Calculate pagination indices
+  // Paginação
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = allPrecos.slice(indexOfFirstItem, indexOfLastItem);
-
-  // Calculate total pages
   const totalPages = Math.ceil(allPrecos.length / itemsPerPage);
 
   const handlePageChange = (newPage: number) => {
@@ -109,21 +97,11 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
       setCurrentPage(newPage);
     }
   };
-
-  // Função para filtrar os dados pelo bairro selecionado
-  const getFilteredDataByBairro = () => {
-    if (exportBairro === "Todos") {
-      return allPrecos; // Exporta todos os dados
-    }
-    return allPrecos.filter((item) => item.bairro === exportBairro); // Exporta somente os dados do bairro selecionado
-  };
-
-  
-  const downloadDataAsExcel = async () => {
-    const dataToExport = getFilteredDataByBairro();
+  // Função para download de dados em Excel
+  const downloadDataAsExcel = async (bairro: string) => {
+    const dataToExport = bairro === "Todos" ? allPrecos : allPrecos.filter((item) => item.bairro === bairro);
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Dados');
-  
     // Adicionando cabeçalhos
     worksheet.columns = [
       { header: 'Posto', key: 'nome', width: 30 },
@@ -135,68 +113,67 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
       { header: 'Etanol', key: 'etanol', width: 15 },
       { header: 'Diesel', key: 'diesel', width: 15 },
     ];
-  
+
     // Adicionando dados
     dataToExport.forEach(item => {
       worksheet.addRow(item);
     });
-  
+
     // Gerar arquivo Excel
     const buffer = await workbook.xlsx.writeBuffer();
-    const blob = new Blob([buffer], { type: 'application/octet-stream' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', `dados_${exportBairro}.xlsx`); // Usar exportBairro aqui
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
+  const blob = new Blob([buffer], { type: 'application/octet-stream' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', `dados_${bairro}.xlsx`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
 
   // Coletar todos os bairros disponíveis para o seletor
   const bairros = Array.from(new Set(allPrecos.map(item => item.bairro)));
 
   return (
     <div className='flex flex-col gap-4'>
-      <div className="flex gap-4 items-center">
+      <div className="flex sm:gap-4 items-center text-sm sm:text-base lg:absolute left-[352px]  top-[98px]">
         <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger className='bg-slate-700 text-white rounded-lg p-2 flex items-center gap-2'>
-            <Download></Download>
-            <span>Download</span>
+            <Download className='h-5 w-5 sm:h-6 sm:w-6'></Download>
+            <span className='lg:hidden'>Download</span>
           </PopoverTrigger>
           <PopoverContent className='w-48'>
             <div className="flex flex-col">
-            <button
-              className="p-2 rounded-md hover:bg-slate-700 hover:text-white text-start"
-              onClick={() => {
-                setSelectedBairro("Todos");
-                setExportBairro("Todos");
-                setIsOpen(false);// Passar "Todos" como argumento
-              }}
-            >
-              Exportar Todos
-            </button>
-
-            {bairros.map((bairro, index) => (
               <button
-                key={index}
-                className={`p-2 rounded-md hover:bg-slate-700 hover:text-white text-start`}
+                className="p-2 rounded-md hover:bg-slate-700 hover:text-white text-start"
                 onClick={() => {
-                  setSelectedBairro(bairro);
-                  setExportBairro(bairro);
-                  setIsOpen(false);// Passar o bairro selecionado como argumento
+                  setExportBairro("Todos");
+                  setIsOpen(false);
+                  downloadDataAsExcel("Todos"); // Chama a função de download imediatamente
                 }}
               >
-                {bairro}
+                Exportar Todos
               </button>
-            ))}
+
+              {bairros.map((bairro, index) => (
+                <button
+                  key={index}
+                  className={`p-2 rounded-md hover:bg-slate-700 hover:text-white text-start`}
+                  onClick={() => {
+                    setExportBairro(bairro);
+                    setIsOpen(false);
+                    downloadDataAsExcel(bairro); // Chama a função de download imediatamente
+                  }}
+                >
+                  {bairro}
+                </button>
+              ))}
             </div>
           </PopoverContent>
         </Popover>
       </div>
-      <Table id='my-table' className='rounded-lg my-table'>
-        <TableHeader className="text-white bg-slate-700 rounded-lg">
+      <Table id='my-table' className='rounded-lg my-table w-full '>
+        <TableHeader className="text-white bg-slate-700 rounded-lg sm:text-base text-sm">
           <TableRow className='min-w-24'>
             <TableHead className='min-w-52'>Posto</TableHead>
             <TableHead className='min-w-52 text-center'>Bandeira</TableHead>
@@ -213,16 +190,16 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
             currentItems.map((preco, index) => (
               <TableRow
                 key={index}
-                className="hover:bg-slate-700 cursor-pointer hover:text-white text-slate-600 h-5"
+                className="hover:bg-slate-700 sm:text-base text-sm cursor-pointer hover:text-white text-slate-600 h-5"
               >
-                <TableCell>{preco.nome}</TableCell>
-                <TableCell className='text-center'>{preco.bandeira}</TableCell>
-                <TableCell className='text-center'>{preco.bairro}</TableCell>
-                <TableCell className='text-center'>{preco.data.slice(0,10)}</TableCell>
-                <TableCell className='text-center'>{`R$ ${preco.diesel}`}</TableCell>
-                <TableCell className='text-center'>{`R$ ${preco.etanol}`}</TableCell>
-                <TableCell className='text-center'>{`R$ ${preco.gasolina_aditivada}`}</TableCell>
-                <TableCell className='text-center'>{`R$ ${preco.gasolina_comum}`}</TableCell>
+                <TableCell className=''>{preco.nome}</TableCell>
+                <TableCell className='text-center '>{preco.bandeira}</TableCell>
+                <TableCell className='text-center '>{preco.bairro}</TableCell>
+                <TableCell className='text-center '>{preco.data.slice(0,10)}</TableCell>
+                <TableCell className='text-center '>{`R$ ${preco.diesel}`}</TableCell>
+                <TableCell className='text-center '>{`R$ ${preco.etanol}`}</TableCell>
+                <TableCell className='text-center '>{`R$ ${preco.gasolina_aditivada}`}</TableCell>
+                <TableCell className='text-center '>{`R$ ${preco.gasolina_comum}`}</TableCell>
               </TableRow>
             ))
           ) : (
@@ -233,19 +210,25 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
             </TableRow>
           )}
         </TableBody>
-      </Table>
+        </Table>
 
-      <TableCaption className='w-full flex items-center justify-center'>Lista com preços dos combustíveis</TableCaption>
 
-      <div className="flex justify-between items-center mt-4">
-          <Pagination className="w-fit text-slate-700">
-            <PaginationContent>
 
+        <div className="flex items-center bg-slate-700 p-4">
+          <Pagination className="flex w-full items-center text-slate-700">
+            <PaginationContent className='flex flex-col md:flex-row gap-4 w-full items-center justify-between'>
+              <div className='w-fit h-full flex items-center gap-4'>
+                <span className='flex sm:text-sm text-xs h-full items-center text-white'>Itens por página: {itemsPerPage}</span>
+                <span className='flex sm:text-sm text-xs text-white'>Total de itens: {allPrecos.length}</span>
+                <span className='flex sm:text-sm text-xs text-white'>Total de páginas: {totalPages}</span>
+              </div>
+
+            <div className='flex'>
             <PaginationItem>
                 <PaginationFisrt
                 href="#"
                 onClick={() => setCurrentPage(1)}
-                className={`${currentPage === 1 ? 'read-only cursor-default hover:bg-transparent hover:text-none opacity-50' : ''}`}
+                className={`${currentPage === 1 ? 'text-white read-only cursor-default hover:bg-transparent hover:text-none opacity-50' : 'text-white'}`}
                 aria-disabled={currentPage === 1}
                 />
             </PaginationItem>
@@ -254,7 +237,7 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
                 <PaginationPrevious
                 href="#"
                 onClick={() => handlePageChange(currentPage - 1)} 
-                className={`${currentPage === 1 ? 'read-only cursor-default hover:bg-transparent hover:text-none opacity-50' : ''}`}
+                className={`${currentPage === 1 ? 'text-white read-only cursor-default hover:bg-transparent hover:text-none opacity-50' : 'text-white'}`}
                 aria-disabled={currentPage === 1}
                 />
             </PaginationItem>
@@ -262,7 +245,7 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
             <PaginationItem>
                 <PaginationLink
                     href="#"
-                    className={currentPage ? "active" : ""}
+                    className={currentPage ? "active text-white" : ""}
                 >
                     {currentPage}
                 </PaginationLink>
@@ -272,7 +255,7 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
                 <PaginationNext
                 href="#"
                 onClick={() => handlePageChange(currentPage + 1)}
-                className={`${currentPage === totalPages ? 'read-only cursor-default hover:bg-transparent hover:text-none opacity-50' : ''}`}
+                className={`${currentPage === totalPages ? 'text-white read-only cursor-default hover:bg-transparent hover:text-none opacity-50' : 'text-white'}`}
                 aria-disabled={(!totalPages || currentPage >= totalPages)}
                 />
             </PaginationItem>
@@ -281,14 +264,21 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
                 <PaginationLast
                 href="#"
                 onClick={() => setCurrentPage(totalPages)}
-                className={`${currentPage === totalPages ? 'read-only cursor-default hover:bg-transparent hover:text-none opacity-50' : ''}`}
+                className={`${currentPage === totalPages ? 'text-white read-only cursor-default hover:bg-transparent hover:text-none opacity-50' : 'text-white'}`}
                 aria-disabled={(!totalPages || currentPage >= totalPages)}
                 />
             </PaginationItem>
+            </div>
+
 
             </PaginationContent>
         </Pagination>
-      </div>
+
+
+        </div>
+
     </div>
   );
 }
+
+

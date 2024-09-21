@@ -64,19 +64,19 @@ const Page: React.FC = () => {
     return(
       <>
         <Header setView={setView}/>
-        <main className="sm:ml-14 p-12">
-      <section className="flex flex-col gap-6" >
-        <h1 className="w-full h-16 self-center text-center text-3xl text-slate-700" hidden={view === "graficos"}>Tabela de Histórico de Preços</h1>
+        <main className="sm:ml-14 p-12 flex items-center justify-center">
+      <section className="flex flex-col justify-center w-full gap-4 relative">
+        <h1 className="w-full h-16 sm:h-[82px] self-center text-center text-xl sm:text-3xl text-slate-700" hidden={view === "graficos"}>Tabela de Histórico de Preços</h1>
         {view === 'tabela' ? 
-        <div className="flex w-full gap-4 justify-between items-center">
-          <div className="flex gap-4 text-slate-700 w-full">
+        <div className="flex flex-col sm:flex-col md:flex-row w-full justify-between items-center gap-4">
+          <div className="flex w-full gap-4 text-slate-700">
             <Popover>
-              <PopoverTrigger asChild>
+              <PopoverTrigger asChild className="w-full md:w-[160px]">
                 <Button
                   variant={"outline"}
                   className={cn(
                     "justify-start text-left font-normal",
-                    !startDate && "text-muted-foreground min-w-[120px]"
+                    !startDate && "text-muted-foreground"
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
@@ -94,12 +94,12 @@ const Page: React.FC = () => {
             </Popover>
 
             <Popover>
-              <PopoverTrigger asChild >
+              <PopoverTrigger asChild className="w-full md:w-[160px]" >
                 <Button
                   variant={"outline"}
                   className={cn(
                     "justify-start text-left font-normal",
-                    !endDate && "text-muted-foreground min-w-[120px]"
+                    !endDate && "text-muted-foreground"
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
@@ -117,13 +117,12 @@ const Page: React.FC = () => {
             </Popover>
           </div>
 
-          <div className="flex gap-4 items-center text-slate-600 min-w-720px">
-            <span>Filtros:</span>
-            <div className="flex gap-4">
-              <div>
-                <span></span>
+          
+
+          <div className=" flex flex-col w-full sm:flex-row gap-4 items-center text-slate-600">
+              <div className="flex w-full">
                 <Select onValueChange={(value) => setSelectedStreet(value)} disabled={selectedPosto === 'Todos'}>
-                  <SelectTrigger className="min-w-[140px] ">
+                  <SelectTrigger className="w-full">
                       <SelectValue placeholder="Bairro" />
                       <MapPin className="h-4 w-4 opacity-50"></MapPin>
                   </SelectTrigger>
@@ -135,10 +134,9 @@ const Page: React.FC = () => {
                     </SelectContent>
                 </Select>
               </div>
-              <div>
-                <span></span>
+              <div className="flex w-full">
                 <Select onValueChange={(value) => setSelectedPosto(value)} disabled={selectedStreet === 'Todos'}>
-                  <SelectTrigger className="min-w-[140px]">
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder={"Posto"}/>
                     <Fuel className="h-4 w-4 opacity-50"></Fuel>
                   </SelectTrigger>
@@ -150,29 +148,28 @@ const Page: React.FC = () => {
                   </SelectContent>
                 </Select>
               </div>
-              <div>
-                <span></span>
+              <div className="flex w-full">
                 <Select onValueChange={(value) => setSelectedOrder(value)}>
-                  <SelectTrigger className="min-w-[140px]">
+                  <SelectTrigger className="w-full">
                       <SelectValue placeholder="Ordernar" />
                       <ListFilter className="h-4 w-4 opacity-50"></ListFilter>
                   </SelectTrigger>
                       <SelectContent className="text-slate-600 ">
-                        <SelectItem value='bandeira_nome'>Bandeira</SelectItem>
                         <SelectItem value='bairro'>Bairro</SelectItem>
                         <SelectItem value='nome_posto'>Posto</SelectItem>
                   </SelectContent>
                 </Select>
               </div>         
             </div>
-          </div>
         </div>
         : ""}
+
         {view === 'tabela' ? <TableInfos
           selectedPosto={selectedPosto}
           selectedStreet={selectedStreet}
           selectedOrder={selectedOrder}
         /> : <Charts/>}
+        
         </section>
         </main>
       </>

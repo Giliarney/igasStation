@@ -70,23 +70,22 @@ const MinPricesStreets: React.FC = () => {
 
 
   return (
-    <Card className="max-w-[50%]">
-      <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
-        <div className="w-full flex flex-col items-center sm:py-6 text-start">
-          <CardTitle className="self-start w-full px-6 text-slate-700">Menores Preços </CardTitle>
-          <h2 className="self-start px-6 text-slate-700">Posto de Combustível</h2>
-          <CardDescription className="self-start px-6">
+    <Card className="w-full">
+      <CardHeader className="flex flex-col h-max border-b w-full p-0 pt-4 pb-0 lg:p-0 lg:flex-col">
+        <div className="w-full px-4 flex flex-col items-center gap-4 sm:py-6 text-center">
+          <CardTitle className="w-full text-slate-700">Menores Preços por Posto de Combustível</CardTitle>
+          <CardDescription className="">
             22 de Ago 2024 - 13 de Set 2024
           </CardDescription>
         </div>
-        <div className="flex h-36 p-0 m-0">
+        <div className="flex h-full p-0 m-0 text-sm lg:text-base">
           {Object.keys(chartConfig).map((key) => {
             const chart = key as keyof typeof chartConfig;
             return (
               <button
                 key={chart}
                 data-active={activeChart === chart}
-                className="w-24 relative z-30 flex justify-center border-t text-center items-center even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
+                className="w-full h-12 relative p-1 z-30 flex justify-center border-t text-center items-center  data-[active=true]:bg-slate-700 data-[active=true]:text-white sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
                 onClick={() => setActiveChart(chart)}
               >
                 {chartConfig[chart].label}
@@ -96,13 +95,14 @@ const MinPricesStreets: React.FC = () => {
         </div>
       </CardHeader>
       <CardContent className="px-2 sm:p-6">
-        <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
+        <ChartContainer config={chartConfig} className="aspect-auto h-[275px] w-full">
           <BarChart
             data={filteredData}
             margin={{ left: 12, right: 12 }}
+            barSize={50}
           >
             <CartesianGrid vertical={false} />
-            <XAxis dataKey="nome" tickLine={false} axisLine={false} tickMargin={8} minTickGap={32} interval={0}  />
+            <XAxis dataKey={"nome"} tickLine={false} axisLine={false} tickMargin={8} minTickGap={32} interval={0} className="hidden md:flex"/>
             <ChartTooltip
               content={
                 <ChartTooltipContent
@@ -115,9 +115,6 @@ const MinPricesStreets: React.FC = () => {
             <Bar dataKey={activeChart} fill={chartConfig[activeChart].color} />
           </BarChart>
         </ChartContainer>
-        <div className="mt-4">
-          <span className="text-slate-700">Posto com o menor preço de {chartConfig[activeChart].label}:</span> <span className="text-slate-500">{minPrice.nome} - R${minPrice[activeChart]}</span>
-        </div>
       </CardContent>
     </Card>
   );

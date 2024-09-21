@@ -8,6 +8,7 @@ import {
   CardContent,
   CardDescription,
   CardFooter,
+  CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import {
@@ -74,10 +75,9 @@ const chartConfig = {
   
 export function TotalAveragePricesStreets() {
 
-    const [selectedStreet, setSelectedStreet] = useState <string | undefined>(undefined);
+    const [selectedStreet, setSelectedStreet] = useState <string | null>("Todos");
     const [startDate, setStartDate] = React.useState<Date>();
     const [endDate, setEndDate] = React.useState<Date>();
-    const [placeholderBairro, setplaceholderBairro] = useState("Bairro");
 
     const formatDate = (date: Date | null) => {
         return date ? date.toISOString().split('T')[0] : '';
@@ -89,9 +89,9 @@ export function TotalAveragePricesStreets() {
         queryFn: async () => {
           const startDateFormatted = formatDate(startDate || null);
           const endDateFormatted = formatDate(endDate || null);
-          const selecteStreetRight = selectedStreet === undefined ? '' : selectedStreet
+          const selecteStreetRight =  selectedStreet
       
-          const url =  `https://api-igas.onrender.com/average_price?bairro=${selecteStreetRight}&data_inicio=${startDateFormatted}&data_fim=${endDateFormatted}`;
+          const url = selectedStreet === "Todos" ? "https://api-igas.onrender.com/average_price" : `https://api-igas.onrender.com/average_price?bairro=${selecteStreetRight}&data_inicio=${startDateFormatted}&data_fim=${endDateFormatted}`;
 
         const response = await fetch(url);
       
@@ -101,12 +101,6 @@ export function TotalAveragePricesStreets() {
         },
       });
       
-      const clearFilter = () => {
-        setEndDate(undefined)
-        setStartDate(undefined)
-        setplaceholderBairro('Bairro')
-        setSelectedStreet(undefined)
-      };
     const data = gasPricesResponse
 
     const { data: dataStreet} = useQuery<Bairros[]>({
@@ -177,23 +171,26 @@ export function TotalAveragePricesStreets() {
 
           <Select onValueChange={(value) => setSelectedStreet(value)}>
               <SelectTrigger className=" text-slate-500">
-                <SelectValue placeholder={placeholderBairro} />
+                <SelectValue placeholder={"Bairro"} />
                 <MapPin className="h-4 w-4 opacity-50"></MapPin>
               </SelectTrigger>
 
               <SelectContent className="">
+                <SelectItem value={"Todos"}>Todos</SelectItem>
                 {streets.map((item, key) => 
                 <SelectItem key={key} value={item.bairro}>{item.bairro}</SelectItem>
               )}
               </SelectContent>
           </Select>
-
-          <Button onClick={clearFilter}>{"Filtrar"}</Button>
         </div>
 
         <CardContent className="flex sm:flex-row sm:justify-center sm:pb-0">
-          <div className="flex flex-wrap justify-center gap-4 w-full">
 
+          <div className="flex flex-wrap justify-center gap-4 w-full">
+            <CardHeader className="flex flex-col gap-4 items-center pb-0 w-full">
+              <CardTitle>Média Geral de Preços</CardTitle>
+              <CardDescription>22 de Agosto - 13 de Setembro 2024</CardDescription>
+            </CardHeader>
             <ChartContainer
               config={chartConfig}
               className="flex w-full aspect-square sm:max-w-[250px] p-0 m-0"
@@ -221,7 +218,7 @@ export function TotalAveragePricesStreets() {
                             y={(viewBox.cy || 0) - 16}
                             className="fill-foreground text-2xl font-bold"
                           >
-                            {data?.precoMedioGeral[0].preco_medio_geral.toPrecision(3)}
+                             R$ {data?.precoMedioGeral[0].preco_medio_geral.toPrecision(3)}
                           </tspan>
                             
                           <tspan
@@ -229,7 +226,7 @@ export function TotalAveragePricesStreets() {
                             y={(viewBox.cy || 0) + 4}
                             className="fill-muted-foreground text-sm"
                           >
-                            {data?.precoMedioGeral[0].tipo_combustivel.slice(0,5)}
+                             {data?.precoMedioGeral[0].tipo_combustivel.slice(0,5)}
                           </tspan>
                         </text>
                       )
@@ -262,7 +259,7 @@ export function TotalAveragePricesStreets() {
               >
                 <ChartTooltip
                   cursor={false}
-                  content={<ChartTooltipContent hideLabel/>}
+                  content={<ChartTooltipContent hideLabel className="bg-slate-50"/>}
                 />
 
                 <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
@@ -276,7 +273,7 @@ export function TotalAveragePricesStreets() {
                               y={(viewBox.cy || 0) - 16}
                               className="fill-foreground text-2xl font-bold"
                             >
-                              {data?.precoMedioPorTipo[0].preco_medio.toPrecision(3)}
+                              R$ {data?.precoMedioPorTipo[0].preco_medio.toPrecision(3)}
                             </tspan>
                               
                             <tspan
@@ -330,7 +327,7 @@ export function TotalAveragePricesStreets() {
                               y={(viewBox.cy || 0) - 16}
                               className="fill-foreground text-2xl font-bold"
                             >
-                              {data?.precoMedioPorTipo[1].preco_medio.toPrecision(3)}
+                               R$ {data?.precoMedioPorTipo[1].preco_medio.toPrecision(3)}
                             </tspan>
                               
                             <tspan
@@ -384,7 +381,7 @@ export function TotalAveragePricesStreets() {
                               y={(viewBox.cy || 0) - 16}
                               className=" text-2xl font-bold" 
                             >
-                              {data?.precoMedioPorTipo[2].preco_medio.toPrecision(3)}
+                               R$ {data?.precoMedioPorTipo[2].preco_medio.toPrecision(3)}
                             </tspan>
                                 
                             <tspan
@@ -438,7 +435,7 @@ export function TotalAveragePricesStreets() {
                             y={(viewBox.cy || 0) - 16}
                             className="fill-foreground text-2xl font-bold"
                           >
-                            {data?.precoMedioPorTipo[3].preco_medio.toPrecision(3)}
+                             R$ {data?.precoMedioPorTipo[3].preco_medio.toPrecision(3)}
                           </tspan>
                             
                           <tspan
@@ -467,12 +464,6 @@ export function TotalAveragePricesStreets() {
             </ChartContainer>
           </div>
         </CardContent>
-
-        <CardFooter className="flex flex-col gap-4 items-center pb-0 w-full absolute bottom-6">
-          <CardTitle>Média Geral de Preços</CardTitle>
-          <CardDescription>22 de Agosto - 13 de Setembro 2024</CardDescription>
-        </CardFooter>
-
       </Card>
 
       <Card className="flex flex-col relative sm:hidden">
@@ -527,20 +518,23 @@ export function TotalAveragePricesStreets() {
 
           <Select onValueChange={(value) => setSelectedStreet(value)}>
               <SelectTrigger className=" text-slate-500">
-                  <SelectValue placeholder={placeholderBairro} />
+                  <SelectValue placeholder={"Bairro"} />
                   <MapPin className="h-4 w-4 opacity-50"></MapPin>
               </SelectTrigger>
               <SelectContent className="">
+                  <SelectItem value={"Todos"}>Todos</SelectItem>
                   {streets.map((item, key) => 
                   <SelectItem key={key} value={item.bairro}>{item.bairro}</SelectItem>
                   )}
               </SelectContent>
           </Select>
-
-          <Button onClick={clearFilter}>{"Filtrar"}</Button>
           </div>
 
           <CardContent className="flex flex-col sm:flex-row sm:justify-center sm:pb-0">
+              <CardFooter className="flex flex-col gap-4 pb-0 w-full items-center">
+                <CardTitle>Média Geral de Preços</CardTitle>
+                <CardDescription>22 de Agosto - 13 de Setembro 2024</CardDescription>
+              </CardFooter>
             <div className="grid grid-cols-2 justify-center w-full">
               <ChartContainer
                 config={chartConfig}
@@ -559,7 +553,7 @@ export function TotalAveragePricesStreets() {
 
                   <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
                     <Label
-                      className="flex items-center justify-center text center"
+                      className="flex items-center justify-center text-center"
                       content={({ viewBox }) => {
                         if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                           return (
@@ -567,9 +561,9 @@ export function TotalAveragePricesStreets() {
                               <tspan
                                 x={viewBox.cx}
                                 y={(viewBox.cy )}
-                                className="fill-foreground text-2xl font-bold"
+                                className="fill-foreground text-xl font-bold"
                               >
-                                {data?.precoMedioGeral[0].preco_medio_geral.toPrecision(3)}
+                                 R$ {data?.precoMedioGeral[0].preco_medio_geral.toPrecision(3)}
                               </tspan>
                                   
                               <tspan
@@ -623,9 +617,9 @@ export function TotalAveragePricesStreets() {
                             <tspan
                               x={viewBox.cx}
                               y={(viewBox.cy)}
-                              className="fill-foreground text-2xl font-bold"
+                              className="fill-foreground text-xl font-bold"
                             >
-                              {data?.precoMedioPorTipo[0].preco_medio.toPrecision(3)}
+                               R$ {data?.precoMedioPorTipo[0].preco_medio.toPrecision(3)}
                             </tspan>
                                 
                             <tspan
@@ -677,9 +671,9 @@ export function TotalAveragePricesStreets() {
                               <tspan
                                 x={viewBox.cx}
                                 y={(viewBox.cy)}
-                                className="fill-foreground text-2xl font-bold"
+                                className="fill-foreground text-xl font-bold"
                               >
-                                {data?.precoMedioPorTipo[1].preco_medio.toPrecision(3)}
+                                 R$ {data?.precoMedioPorTipo[1].preco_medio.toPrecision(3)}
                               </tspan>
                               
                               <tspan
@@ -731,9 +725,9 @@ export function TotalAveragePricesStreets() {
                             <tspan
                               x={viewBox.cx}
                               y={(viewBox.cy)}
-                              className=" text-2xl font-bold" 
+                              className=" text-xl font-bold" 
                             >
-                              {data?.precoMedioPorTipo[2].preco_medio.toPrecision(3)}
+                               R$ {data?.precoMedioPorTipo[2].preco_medio.toPrecision(3)}
                             </tspan>
                               
                             <tspan
@@ -785,9 +779,9 @@ export function TotalAveragePricesStreets() {
                             <tspan
                               x={viewBox.cx}
                               y={(viewBox.cy)}
-                              className="fill-foreground text-2xl font-bold"
+                              className="fill-foreground text-xl font-bold"
                             >
-                              {data?.precoMedioPorTipo[3].preco_medio.toPrecision(3)}
+                               R$ {data?.precoMedioPorTipo[3].preco_medio.toPrecision(3)}
                             </tspan>
                               
                             <tspan
@@ -815,11 +809,6 @@ export function TotalAveragePricesStreets() {
               </ChartContainer>
             </div>
         </CardContent>
-
-        <CardFooter className="flex flex-col gap-4 items-center pb-0 w-full absolute bottom-6">
-          <CardTitle>Média Geral de Preços</CardTitle>
-          <CardDescription>22 de Agosto - 13 de Setembro 2024</CardDescription>
-        </CardFooter>
       </Card> 
     </>
   )
