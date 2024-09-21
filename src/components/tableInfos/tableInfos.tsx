@@ -23,7 +23,7 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [exportBairro, setExportBairro] = useState<string | "Todos">("Todos");
-  const [selectedBairro, setSelectedBairro] = useState<string | null>(null); // Add state for selected bairro
+  const [ ,setSelectedBairro] = useState<string | null>(null); // Add state for selected bairro
   const [isOpen, setIsOpen] = useState(false);
 
   const { data: dadosResponse, isLoading, error } = useQuery<Posto[]>({
@@ -102,7 +102,7 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
   };
 
   // Função para filtrar os dados pelo bairro selecionado
-  const getFilteredDataByBairro = (bairro:String) => {
+  const getFilteredDataByBairro = () => {
     if (exportBairro === "Todos") {
       return allPrecos; // Exporta todos os dados
     }
@@ -114,13 +114,12 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
       const timer = setTimeout(() => {
         downloadDataAsExcel();
       }, 1000); // Ajuste o tempo conforme necessário
-  
-      return () => clearTimeout(timer); // Limpa o timer se o componente desmontar ou exportBairro mudar
+  // Limpa o timer se o componente desmontar ou exportBairro mudar
     }
   }, [exportBairro]);
   
   const downloadDataAsExcel = async () => {
-    const dataToExport = getFilteredDataByBairro(exportBairro);
+    const dataToExport = getFilteredDataByBairro();
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Dados');
   
