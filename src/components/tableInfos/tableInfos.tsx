@@ -25,6 +25,15 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
   const [exportBairro, setExportBairro] = useState<string | "Todos">("Todos");
   const [ ,setSelectedBairro] = useState<string | null>(null); // Add state for selected bairro
   const [isOpen, setIsOpen] = useState(false);
+  
+  useEffect(() => {
+    if (exportBairro) {
+      setTimeout(() => {
+        downloadDataAsExcel();
+      }, 1000); // Ajuste o tempo conforme necessário
+  // Limpa o timer se o componente desmontar ou exportBairro mudar
+    }
+  }, [exportBairro]);
 
   const { data: dadosResponse, isLoading, error } = useQuery<Posto[]>({
     queryKey: ["get-gas-station-prices"],
@@ -109,14 +118,6 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
     return allPrecos.filter((item) => item.bairro === exportBairro); // Exporta somente os dados do bairro selecionado
   };
 
-  useEffect(() => {
-    if (exportBairro) {
-      const timer = setTimeout(() => {
-        downloadDataAsExcel();
-      }, 1000); // Ajuste o tempo conforme necessário
-  // Limpa o timer se o componente desmontar ou exportBairro mudar
-    }
-  }, [exportBairro]);
   
   const downloadDataAsExcel = async () => {
     const dataToExport = getFilteredDataByBairro();
