@@ -63,7 +63,6 @@ const Header: React.FC<HeaderProps> = ({setView}) => {
                     <Logo viewBox="0 -25 125 125"></Logo>
                 </div>
 
-
                 <Sheet>
                     <SheetTrigger asChild>
                         <Button size="icon" variant="outline" className='sm:hidden border-none text-slate-700 transition-all hover:bg-slate-700 hover:text-white'>
@@ -72,18 +71,18 @@ const Header: React.FC<HeaderProps> = ({setView}) => {
                         </Button>
                     </SheetTrigger>
 
-                    <SheetContent side="right" className='w-64 sm:w-96 bg-white items-center p-0 m-0 border-none'>
+                    <SheetContent side="right" className='bg-white items-center p-0 m-0 border-none'>
                         <nav className='flex flex-col gap-3 text-slate-700'>
                             <div className='w-full flex items-center justify-center px-4 py-8 text-slate-700'>
                                 <h1>Menu</h1>
                             </div>
 
-                            <Link href="#" className='flex w-96 p-4 gap-3 transition-all hover:bg-slate-700 hover:text-white'>
+                            <Link href="#" onClick={() => setView('tabela')} className='flex w-96 p-4 gap-3 transition-all hover:bg-slate-700 hover:text-white'>
                                 <List></List>
                                 <span>Tabela de Preços</span>
                             </Link>
 
-                            <Link href="#" className='flex max-w-full p-4 gap-3 transition-all hover:bg-slate-700,text-white hover:bg-slate-700 hover:text-white'>
+                            <Link href="#" onClick={() => setView('graficos')} className='flex max-w-full p-4 gap-3 transition-all hover:bg-slate-700,text-white hover:bg-slate-700 hover:text-white'>
                                 <ChartSpline></ChartSpline>
                                 <span>Gráficos</span>
                             </Link>

@@ -123,16 +123,18 @@ export function TotalAveragePricesStreets() {
 
     const streets = dataStreet || [];
 
-    return (
-        <Card className="flex flex-col relative">
-            <div className="w-full m-4 flex gap-4 items-center">
+  return (
+    <>
+      <Card className="hidden sm:flex sm:flex-col relative gap-4">
+        <div className="grid grid-rows-2 w-full p-4 md:flex gap-4 items-center md:justify-between">
+          <div className="flex gap-4 w-full">
             <Popover>
-              <PopoverTrigger asChild className="text-slate-500"> 
+              <PopoverTrigger asChild className="text-slate-500 w-full"> 
                 <Button
                   variant={"outline"}
                   className={cn(
                     "justify-start text-left font-normal",
-                    !startDate && "text-muted-foreground min-w-[120px]"
+                    !startDate && "text-muted-foreground w-full min-w-[120px]"
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
@@ -150,12 +152,12 @@ export function TotalAveragePricesStreets() {
             </Popover>
 
             <Popover>
-              <PopoverTrigger asChild disabled={startDate === undefined}>
+              <PopoverTrigger asChild disabled={startDate === undefined} className="">
                 <Button
                   variant={"outline"}
                   className={cn(
                     "justify-start text-left font-normal",
-                    !endDate && "text-muted-foreground min-w-[120px]"
+                    !endDate && "text-muted-foreground w-full min-w-[120px]"
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
@@ -171,291 +173,654 @@ export function TotalAveragePricesStreets() {
                 />
               </PopoverContent>
             </Popover>
+          </div>
 
-            <Select onValueChange={(value) => setSelectedStreet(value)}>
-                <SelectTrigger className="max-w-[160px] text-slate-500">
-                    <SelectValue placeholder={placeholderBairro} />
-                    <MapPin className="h-4 w-4 opacity-50"></MapPin>
-                </SelectTrigger>
-                <SelectContent className="text-slate-600 ">
-                    {streets.map((item, key) => 
-                    <SelectItem key={key} value={item.bairro}>{item.bairro}</SelectItem>
-                    )}
-                </SelectContent>
-            </Select>
+          <Select onValueChange={(value) => setSelectedStreet(value)}>
+              <SelectTrigger className=" text-slate-500">
+                <SelectValue placeholder={placeholderBairro} />
+                <MapPin className="h-4 w-4 opacity-50"></MapPin>
+              </SelectTrigger>
 
-            <Button onClick={clearFilter}>{"Filtrar"}</Button>
+              <SelectContent className="">
+                {streets.map((item, key) => 
+                <SelectItem key={key} value={item.bairro}>{item.bairro}</SelectItem>
+              )}
+              </SelectContent>
+          </Select>
+
+          <Button onClick={clearFilter}>{"Filtrar"}</Button>
         </div>
-        <CardContent className="flex items-center pb-0 ">
+
+        <CardContent className="flex sm:flex-row sm:justify-center sm:pb-0">
+          <div className="flex flex-wrap justify-center gap-4 w-full">
+
             <ChartContainer
-            config={chartConfig}
-            className="mx-auto aspect-square w-full max-w-[250px]"
+              config={chartConfig}
+              className="flex w-full aspect-square sm:max-w-[250px] p-0 m-0"
             >
-                
-            <RadialBarChart
+              
+              <RadialBarChart
                 data={data?.precoMedioGeral}
                 endAngle={180}
                 innerRadius={80}
                 outerRadius={130}
-            >
-                <ChartTooltip
+              >
+              <ChartTooltip
                 cursor={false}
                 content={<ChartTooltipContent hideLabel className="bg-slate-50" />}
-                />
-                <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
+              />
+
+              <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
                 <Label
-                    content={({ viewBox }) => {
+                  content={({ viewBox }) => {
                     if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                        return (
+                      return (
                         <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
-                            <tspan
+                          <tspan
                             x={viewBox.cx}
                             y={(viewBox.cy || 0) - 16}
                             className="fill-foreground text-2xl font-bold"
-                            >
+                          >
                             {data?.precoMedioGeral[0].preco_medio_geral.toPrecision(3)}
-                            </tspan>
+                          </tspan>
                             
-                            <tspan
+                          <tspan
                             x={viewBox.cx}
                             y={(viewBox.cy || 0) + 4}
                             className="fill-muted-foreground text-sm"
-                            >
+                          >
                             {data?.precoMedioGeral[0].tipo_combustivel.slice(0,5)}
-                            </tspan>
+                          </tspan>
                         </text>
-                        )
+                      )
                     }
-                    }}
+                  }}
                 />
-                </PolarRadiusAxis>
+              </PolarRadiusAxis>
 
-                <RadialBar
-                    dataKey="preco_medio_geral"
-                    stackId="a"
-                    cornerRadius={5}
-                    fill="hsl(var(--chart-1))"
-                    className="stroke-transparent stroke-2"
-                    />
-                </RadialBarChart>
+              <RadialBar
+                dataKey="preco_medio_geral"
+                stackId="a"
+                cornerRadius={5}
+                fill="hsl(var(--chart-1))"
+                className="stroke-transparent stroke-2"
+              />
+              </RadialBarChart>
             </ChartContainer>
 
             <ChartContainer
-            config={chartConfig}
-            className="mx-auto aspect-square w-full max-w-[250px]"
+              config={chartConfig}
+              className="w-full aspect-square sm:max-w-[250px] p-0 m-0
+              flex items-center justify-center"
             >
                 
-            <RadialBarChart
+              <RadialBarChart
                 data={[data?.precoMedioPorTipo[0]]}
                 endAngle={180}
                 innerRadius={80}
                 outerRadius={130}
-            >
+              >
                 <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent hideLabel/>}
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel/>}
                 />
+
                 <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
-                <Label
-                    content={({ viewBox }) => {
-                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                  <Label
+                      content={({ viewBox }) => {
+                      if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                         return (
-                        <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                          <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
                             <tspan
-                            x={viewBox.cx}
-                            y={(viewBox.cy || 0) - 16}
-                            className="fill-foreground text-2xl font-bold"
+                              x={viewBox.cx}
+                              y={(viewBox.cy || 0) - 16}
+                              className="fill-foreground text-2xl font-bold"
                             >
-                            {data?.precoMedioPorTipo[0].preco_medio.toPrecision(3)}
+                              {data?.precoMedioPorTipo[0].preco_medio.toPrecision(3)}
                             </tspan>
-                            
+                              
                             <tspan
-                            x={viewBox.cx}
-                            y={(viewBox.cy || 0) + 4}
-                            className="fill-muted-foreground text-sm"
+                              x={viewBox.cx}
+                              y={(viewBox.cy || 0) + 4}
+                              className="fill-muted-foreground text-sm"
                             >
-                            {data?.precoMedioPorTipo[0].tipo_combustivel}
+                              {data?.precoMedioPorTipo[0].tipo_combustivel}
                             </tspan>
-                        </text>
+                          </text>
                         )
-                    }
+                      }
                     }}
-                />
+                  />
                 </PolarRadiusAxis>
 
                 <RadialBar
-                    dataKey="preco_medio"
-                    stackId="a"
-                    cornerRadius={5}
-                    fill="hsl(var(--chart-2))"
-                    className="stroke-transparent stroke-2"
-                    />
+                  dataKey="preco_medio"
+                  stackId="a"
+                  cornerRadius={5}
+                  fill="hsl(var(--chart-2))"
+                  className="stroke-transparent stroke-2 w-16 h-16"
+                  />
                 </RadialBarChart>
             </ChartContainer>
+
             <ChartContainer
-            config={chartConfig}
-            className="mx-auto aspect-square w-full max-w-[250px]"
+              config={chartConfig}
+              className="aspect-square w-full sm:max-w-[250px]"
             >
                 
-            <RadialBarChart
+              <RadialBarChart
                 data={[data?.precoMedioPorTipo[1]]}
                 endAngle={180}
                 innerRadius={80}
                 outerRadius={130}
-            >
+              >
                 <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent hideLabel className="bg-slate-50" />}
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel className="bg-slate-50" />}
                 />
+
                 <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
-                <Label
-                    content={({ viewBox }) => {
-                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                  <Label
+                      content={({ viewBox }) => {
+                      if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                         return (
-                        <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                          <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
                             <tspan
-                            x={viewBox.cx}
-                            y={(viewBox.cy || 0) - 16}
-                            className="fill-foreground text-2xl font-bold"
+                              x={viewBox.cx}
+                              y={(viewBox.cy || 0) - 16}
+                              className="fill-foreground text-2xl font-bold"
                             >
-                             {data?.precoMedioPorTipo[1].preco_medio.toPrecision(3)}
+                              {data?.precoMedioPorTipo[1].preco_medio.toPrecision(3)}
                             </tspan>
-                            
+                              
                             <tspan
-                            x={viewBox.cx}
-                            y={(viewBox.cy || 0) + 4}
-                            className="fill-muted-foreground text-sm"
+                              x={viewBox.cx}
+                              y={(viewBox.cy || 0) + 4}
+                              className="fill-muted-foreground text-sm"
                             >
-                            {data?.precoMedioPorTipo[1].tipo_combustivel}
+                              {data?.precoMedioPorTipo[1].tipo_combustivel}
                             </tspan>
-                        </text>
+                          </text>
                         )
-                    }
+                      }
                     }}
-                />
+                  />
                 </PolarRadiusAxis>
 
                 <RadialBar
+                  dataKey="preco_medio"
+                  stackId="a"
+                  cornerRadius={5}
+                  fill="hsl(var(--chart-3))"
+                  className="stroke-transparent stroke-2"
+                  />
+                </RadialBarChart>
+            </ChartContainer>
+
+            <ChartContainer
+              config={chartConfig}
+              className="aspect-square w-full sm:max-w-[250px]"
+            >
+                
+              <RadialBarChart
+                data={[data?.precoMedioPorTipo[2]]}
+                endAngle={180}
+                innerRadius={80}
+                outerRadius={130}
+              >
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel className="bg-slate-50"/>}
+                />
+
+                <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
+                  <Label className=""
+                    content={({ viewBox }) => {
+                      if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                        return (
+                          <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                            <tspan
+                              x={viewBox.cx}
+                              y={(viewBox.cy || 0) - 16}
+                              className=" text-2xl font-bold" 
+                            >
+                              {data?.precoMedioPorTipo[2].preco_medio.toPrecision(3)}
+                            </tspan>
+                                
+                            <tspan
+                              x={viewBox.cx}
+                              y={(viewBox.cy || 0) + 4}
+                              className="fill-muted-foreground text-sm"
+                            >
+                              {data?.precoMedioPorTipo[2].tipo_combustivel}
+                            </tspan>
+                          </text>
+                        )
+                      }
+                    }}
+                  />
+                </PolarRadiusAxis>
+
+                <RadialBar
+                  dataKey="preco_medio"
+                  stackId="a"
+                  cornerRadius={5}
+                  fill="hsl(var(--chart-4))"
+                  className="stroke-transparent stroke-2"
+                />
+                </RadialBarChart>
+            </ChartContainer>
+
+            <ChartContainer
+              config={chartConfig}
+              className="aspect-square w-full sm:max-w-[250px]"
+            >
+                
+              <RadialBarChart
+                data={[data?.precoMedioPorTipo[3]]}
+                endAngle={180}
+                innerRadius={80}
+                outerRadius={130}
+              >
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel className="bg-slate-50"/>}
+                />
+
+                <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
+                  <Label
+                    content={({ viewBox }) => {
+                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                      return (
+                        <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) - 16}
+                            className="fill-foreground text-2xl font-bold"
+                          >
+                            {data?.precoMedioPorTipo[3].preco_medio.toPrecision(3)}
+                          </tspan>
+                            
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) + 4}
+                            className="fill-muted-foreground text-sm"
+                          >
+                            {data?.precoMedioPorTipo[3].tipo_combustivel}
+                          </tspan>
+                        </text>
+                      )
+                    }
+                    }}
+                  />
+                </PolarRadiusAxis>
+
+              <RadialBar
+                dataKey="preco_medio"
+                stackId="a"
+                cornerRadius={5}
+                fill="hsl(var(--chart-5))"
+                className="stroke-transparent stroke-2"
+              />
+              </RadialBarChart>
+
+            </ChartContainer>
+          </div>
+        </CardContent>
+
+        <CardFooter className="flex flex-col gap-4 items-center pb-0 w-full absolute bottom-6">
+          <CardTitle>Média Geral de Preços</CardTitle>
+          <CardDescription>22 de Agosto - 13 de Setembro 2024</CardDescription>
+        </CardFooter>
+
+      </Card>
+
+      <Card className="flex flex-col relative sm:hidden">
+        <div className="grid grid-rows-2 items-center gap-4 p-4">
+          <div className="flex gap-4 w-full">
+            <Popover >
+              <PopoverTrigger asChild className="text-slate-500 w-full"> 
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "justify-start text-left font-normal",
+                    !startDate && "text-muted-foreground w-full min-w-[120px]"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {startDate ? format(startDate, "PPP") : <span>Data Inicio</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={startDate}
+                  onSelect={setStartDate}
+                  initialFocus 
+                />
+              </PopoverContent>
+            </Popover>
+
+            <Popover>
+              <PopoverTrigger asChild disabled={startDate === undefined} className="">
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "justify-start text-left font-normal",
+                    !endDate && "text-muted-foreground w-full min-w-[120px]"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {endDate ? format(endDate, "PPP") : <span>Data Fim</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={endDate}
+                  onSelect={setEndDate}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+
+          <Select onValueChange={(value) => setSelectedStreet(value)}>
+              <SelectTrigger className=" text-slate-500">
+                  <SelectValue placeholder={placeholderBairro} />
+                  <MapPin className="h-4 w-4 opacity-50"></MapPin>
+              </SelectTrigger>
+              <SelectContent className="">
+                  {streets.map((item, key) => 
+                  <SelectItem key={key} value={item.bairro}>{item.bairro}</SelectItem>
+                  )}
+              </SelectContent>
+          </Select>
+
+          <Button onClick={clearFilter}>{"Filtrar"}</Button>
+          </div>
+
+          <CardContent className="flex flex-col sm:flex-row sm:justify-center sm:pb-0">
+            <div className="grid grid-cols-2 justify-center w-full">
+              <ChartContainer
+                config={chartConfig}
+                className="flex items-center justify-center aspect-square sm:max-w-[250px] p-0 m-0"
+              >
+                  
+                <RadialBarChart
+                  data={data?.precoMedioGeral}
+                  innerRadius={55}
+                  outerRadius={85}
+                >
+                  <ChartTooltip
+                    cursor={false}
+                    content={<ChartTooltipContent hideLabel className="bg-slate-50" />}
+                  />
+
+                  <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
+                    <Label
+                      className="flex items-center justify-center text center"
+                      content={({ viewBox }) => {
+                        if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                          return (
+                            <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                              <tspan
+                                x={viewBox.cx}
+                                y={(viewBox.cy )}
+                                className="fill-foreground text-2xl font-bold"
+                              >
+                                {data?.precoMedioGeral[0].preco_medio_geral.toPrecision(3)}
+                              </tspan>
+                                  
+                              <tspan
+                                x={viewBox.cx}
+                                y={(viewBox.cy || 0) +20}
+                                className="fill-muted-foreground text-sm"
+                              >
+                                {data?.precoMedioGeral[0].tipo_combustivel.slice(0,5)}
+                              </tspan>
+                            </text>
+                          )
+                        }
+                      }}
+                    />
+                  </PolarRadiusAxis>
+
+                  <RadialBar
+                    dataKey="preco_medio_geral"
+                    stackId="a"
+                    cornerRadius={5}
+                    fill="hsl(var(--chart-1))"
+                    className="stroke-transparent stroke-2 flex"
+                  />
+                  </RadialBarChart>
+              </ChartContainer>
+
+              <ChartContainer
+                config={chartConfig}
+                className=" w-full sm:max-w-[250px] aspect-square p-0 m-0
+                flex items-center justify-center"
+              >
+                  
+                <RadialBarChart
+                  data={[data?.precoMedioPorTipo[0]]}
+                  innerRadius={55}
+                  outerRadius={85}
+                  className="flex justify-center"
+                >
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel/>}
+                />
+
+                <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
+                    
+                  <Label 
+                    content={({ viewBox }) => {
+                      if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                        return (
+                          <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                            <tspan
+                              x={viewBox.cx}
+                              y={(viewBox.cy)}
+                              className="fill-foreground text-2xl font-bold"
+                            >
+                              {data?.precoMedioPorTipo[0].preco_medio.toPrecision(3)}
+                            </tspan>
+                                
+                            <tspan
+                              x={viewBox.cx}
+                              y={(viewBox.cy || 0 ) + 20}
+                              className="fill-muted-foreground text-sm"
+                            >
+                              {data?.precoMedioPorTipo[0].tipo_combustivel}
+                            </tspan>
+                          </text>
+                          )
+                        }
+                    }}
+                  />
+                </PolarRadiusAxis>
+
+                <RadialBar
+                  dataKey="preco_medio"
+                  stackId="a"
+                  cornerRadius={5}
+                  fill="hsl(var(--chart-2))"
+                  className="stroke-transparent stroke-2 w-16 h-16"
+                />
+                </RadialBarChart>
+              </ChartContainer>
+
+              <ChartContainer
+                config={chartConfig}
+                className=" w-full sm:max-w-[250px] aspect-square"
+              >
+      
+                <RadialBarChart
+                  data={[data?.precoMedioPorTipo[1]]}
+                  innerRadius={55}
+                  outerRadius={85}
+                >
+                  <ChartTooltip
+                    cursor={false}
+                    content={<ChartTooltipContent hideLabel className="bg-slate-50" />}
+                  />
+
+                  <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
+
+                    <Label
+                      content={({ viewBox }) => {
+                        if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                          return (
+                            <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                              <tspan
+                                x={viewBox.cx}
+                                y={(viewBox.cy)}
+                                className="fill-foreground text-2xl font-bold"
+                              >
+                                {data?.precoMedioPorTipo[1].preco_medio.toPrecision(3)}
+                              </tspan>
+                              
+                              <tspan
+                                x={viewBox.cx}
+                                y={(viewBox.cy || 0 ) + 20}
+                                className="fill-muted-foreground text-sm"
+                              >
+                                {data?.precoMedioPorTipo[1].tipo_combustivel}
+                              </tspan>
+                            </text>
+                          )
+                        }
+                      }}
+                    />
+                  </PolarRadiusAxis>
+
+                  <RadialBar
                     dataKey="preco_medio"
                     stackId="a"
                     cornerRadius={5}
                     fill="hsl(var(--chart-3))"
                     className="stroke-transparent stroke-2"
                     />
-                </RadialBarChart>
-            </ChartContainer>
-            <ChartContainer
-            config={chartConfig}
-            className="mx-auto aspect-square w-full max-w-[250px]"
-            >
-                
-            <RadialBarChart
+                  </RadialBarChart>
+              </ChartContainer>
+
+              <ChartContainer
+                config={chartConfig}
+                className=" w-full sm:max-w-[250px] aspect-square"
+              >
+                  
+              <RadialBarChart
                 data={[data?.precoMedioPorTipo[2]]}
-                endAngle={180}
-                innerRadius={80}
-                outerRadius={130}
-            >
+                innerRadius={55}
+                outerRadius={85} 
+              >
                 <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent hideLabel className="bg-slate-50"/>}
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel className="bg-slate-50"/>}
                 />
+
                 <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
-                <Label className=""
+
+                  <Label className=""
                     content={({ viewBox }) => {
-                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                      if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                         return (
-                        <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                          <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
                             <tspan
-                            x={viewBox.cx}
-                            y={(viewBox.cy || 0) - 16}
-                            className=" text-2xl font-bold" 
+                              x={viewBox.cx}
+                              y={(viewBox.cy)}
+                              className=" text-2xl font-bold" 
                             >
-                             {data?.precoMedioPorTipo[2].preco_medio.toPrecision(3)}
+                              {data?.precoMedioPorTipo[2].preco_medio.toPrecision(3)}
                             </tspan>
-                            
+                              
                             <tspan
-                            x={viewBox.cx}
-                            y={(viewBox.cy || 0) + 4}
-                            className="fill-muted-foreground text-sm"
+                              x={viewBox.cx}
+                              y={(viewBox.cy || 0 ) + 20}
+                              className="fill-muted-foreground text-sm"
                             >
-                            {data?.precoMedioPorTipo[2].tipo_combustivel}
+                              {data?.precoMedioPorTipo[2].tipo_combustivel.slice(9)}
                             </tspan>
-                        </text>
+                          </text>
                         )
-                    }
+                      }
                     }}
-                />
+                  />
                 </PolarRadiusAxis>
 
-                <RadialBar
+                  <RadialBar
                     dataKey="preco_medio"
                     stackId="a"
                     cornerRadius={5}
                     fill="hsl(var(--chart-4))"
                     className="stroke-transparent stroke-2"
                     />
-                </RadialBarChart>
-            </ChartContainer>
-            <ChartContainer
-            config={chartConfig}
-            className="mx-auto aspect-square w-full max-w-[250px]"
-            >
-                
-            <RadialBarChart
-                data={[data?.precoMedioPorTipo[3]]}
-                endAngle={180}
-                innerRadius={80}
-                outerRadius={130}
-            >
-                <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent hideLabel className="bg-slate-50"/>}
-                />
-                <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
-                <Label
-                    content={({ viewBox }) => {
-                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                        return (
-                        <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
-                            <tspan
-                            x={viewBox.cx}
-                            y={(viewBox.cy || 0) - 16}
-                            className="fill-foreground text-2xl font-bold"
-                            >
-                            {data?.precoMedioPorTipo[3].preco_medio.toPrecision(3)}
-                            </tspan>
-                            
-                            <tspan
-                            x={viewBox.cx}
-                            y={(viewBox.cy || 0) + 4}
-                            className="fill-muted-foreground text-sm"
-                            >
-                            {data?.precoMedioPorTipo[3].tipo_combustivel}
-                            </tspan>
-                        </text>
-                        )
-                    }
-                    }}
-                />
-                </PolarRadiusAxis>
+                  </RadialBarChart>
+              </ChartContainer>
 
-                <RadialBar
+              <ChartContainer
+                config={chartConfig}
+                className=" w-full sm:max-w-[250px] aspect-square"
+              >
+              
+              <RadialBarChart
+                data={[data?.precoMedioPorTipo[3]]}
+                innerRadius={55}
+                outerRadius={85} 
+              >
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel className="bg-slate-50"/>}
+                />
+
+                <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
+
+                  <Label 
+                    content={({ viewBox }) => {
+                      if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                        return (
+                          <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                            <tspan
+                              x={viewBox.cx}
+                              y={(viewBox.cy)}
+                              className="fill-foreground text-2xl font-bold"
+                            >
+                              {data?.precoMedioPorTipo[3].preco_medio.toPrecision(3)}
+                            </tspan>
+                              
+                            <tspan
+                              x={viewBox.cx}
+                              y={(viewBox.cy || 0 ) + 20}
+                              className="fill-muted-foreground text-sm"
+                            >
+                              {data?.precoMedioPorTipo[3].tipo_combustivel.slice(9)}
+                            </tspan>
+                          </text>
+                        )
+                      }
+                    }}
+                  />
+                  </PolarRadiusAxis>
+
+                  <RadialBar
                     dataKey="preco_medio"
                     stackId="a"
                     cornerRadius={5}
                     fill="hsl(var(--chart-5))"
                     className="stroke-transparent stroke-2"
                     />
-                </RadialBarChart>
-
-            </ChartContainer>
-
+                  </RadialBarChart>
+              </ChartContainer>
+            </div>
         </CardContent>
-        <CardFooter className="flex flex-col gap-4 items-center pb-0 w-full absolute bottom-6">
-                <CardTitle>Média Geral de Preços</CardTitle>
-                <CardDescription>22 de Agosto - 13 de Setembro 2024</CardDescription>
-            </CardFooter>
 
-        </Card> 
+        <CardFooter className="flex flex-col gap-4 items-center pb-0 w-full absolute bottom-6">
+          <CardTitle>Média Geral de Preços</CardTitle>
+          <CardDescription>22 de Agosto - 13 de Setembro 2024</CardDescription>
+        </CardFooter>
+      </Card> 
+    </>
   )
 }

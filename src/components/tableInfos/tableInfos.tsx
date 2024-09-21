@@ -1,10 +1,12 @@
-import { useState } from 'react';
+"use client"
+import { useState, useEffect  } from 'react';
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { BeatLoader } from 'react-spinners';
-import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext, PaginationLink, PaginationLast, PaginationFisrt } from "@/components/ui/pagination"
-import * as XLSX from 'xlsx';
-
+import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext, PaginationLink, PaginationLast, PaginationFisrt } from "@/components/ui/pagination";
+import ExcelJS from 'exceljs';
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"; // Import Popover components
+import { Download } from "lucide-react"
 
 export interface Posto {
   posto_nome: string;
@@ -17,10 +19,13 @@ export interface Posto {
   diesel: number;
 }
 
-export default function TableInfos({ selectedPosto, selectedStreet, selectedOrder}: { selectedPosto: string | null, selectedStreet: string | null, selectedOrder: string | null}) {
+export default function TableInfos({ selectedPosto, selectedStreet, selectedOrder }: { selectedPosto: string | null, selectedStreet: string | null, selectedOrder: string | null }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-const [exportBairro, setExportBairro] = useState<string | "Todos">("Todos");
+  const [exportBairro, setExportBairro] = useState<string | "Todos">("Todos");
+  const [selectedBairro, setSelectedBairro] = useState<string | null>(null); // Add state for selected bairro
+  const [isOpen, setIsOpen] = useState(false);
+
   const { data: dadosResponse, isLoading, error } = useQuery<Posto[]>({
     queryKey: ["get-gas-station-prices"],
     queryFn: async () => {
@@ -28,7 +33,6 @@ const [exportBairro, setExportBairro] = useState<string | "Todos">("Todos");
       if (!response.ok) throw new Error("Network response was not ok");
 
       const data = await response.json();
-
       await new Promise(resolve => setTimeout(resolve, 100));
 
       return data;
@@ -97,20 +101,58 @@ const [exportBairro, setExportBairro] = useState<string | "Todos">("Todos");
     }
   };
 
-    // Função para filtrar os dados pelo bairro selecionado
-  const getFilteredDataByBairro = () => {
+  // Função para filtrar os dados pelo bairro selecionado
+  const getFilteredDataByBairro = (bairro:String) => {
     if (exportBairro === "Todos") {
       return allPrecos; // Exporta todos os dados
     }
     return allPrecos.filter((item) => item.bairro === exportBairro); // Exporta somente os dados do bairro selecionado
   };
-    const downloadDataAsExcel = () => {
-    const dataToExport = getFilteredDataByBairro();
-    const worksheet = XLSX.utils.json_to_sheet(dataToExport); // Gera a planilha a partir dos dados filtrados
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-    XLSX.writeFile(workbook, `dados_${exportBairro}.xlsx`);
+
+  useEffect(() => {
+    if (exportBairro) {
+      const timer = setTimeout(() => {
+        downloadDataAsExcel();
+      }, 1000); // Ajuste o tempo conforme necessário
+  
+      return () => clearTimeout(timer); // Limpa o timer se o componente desmontar ou exportBairro mudar
+    }
+  }, [exportBairro]);
+  
+  const downloadDataAsExcel = async () => {
+    const dataToExport = getFilteredDataByBairro(exportBairro);
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Dados');
+  
+    // Adicionando cabeçalhos
+    worksheet.columns = [
+      { header: 'Posto', key: 'nome', width: 30 },
+      { header: 'Bandeira', key: 'bandeira', width: 30 },
+      { header: 'Bairro', key: 'bairro', width: 30 },
+      { header: 'Data', key: 'data', width: 20 },
+      { header: 'Gasolina Comum', key: 'gasolina_comum', width: 15 },
+      { header: 'Gasolina Aditivada', key: 'gasolina_aditivada', width: 20 },
+      { header: 'Etanol', key: 'etanol', width: 15 },
+      { header: 'Diesel', key: 'diesel', width: 15 },
+    ];
+  
+    // Adicionando dados
+    dataToExport.forEach(item => {
+      worksheet.addRow(item);
+    });
+  
+    // Gerar arquivo Excel
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: 'application/octet-stream' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `dados_${exportBairro}.xlsx`); // Usar exportBairro aqui
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
+
 
   // Coletar todos os bairros disponíveis para o seletor
   const bairros = Array.from(new Set(allPrecos.map(item => item.bairro)));
@@ -118,23 +160,40 @@ const [exportBairro, setExportBairro] = useState<string | "Todos">("Todos");
   return (
     <div className='flex flex-col gap-4'>
       <div className="flex gap-4 items-center">
-        <label htmlFor="export-bairro">Exportar por bairro:</label>
-        <select
-          id="export-bairro"
-          value={exportBairro}
-          onChange={(e) => setExportBairro(e.target.value)}
-          className="p-2 border border-gray-300 rounded"
-        >
-          <option value="Todos">Todos</option>
-          {bairros.map((bairro, index) => (
-            <option key={index} value={bairro}>
-              {bairro}
-            </option>
-          ))}
-        </select>
-        <button onClick={downloadDataAsExcel} className="p-2 bg-blue-500 text-white rounded">
-          Download Dados ({exportBairro})
-        </button>
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
+          <PopoverTrigger className='bg-slate-700 text-white rounded-lg p-2 flex items-center gap-2'>
+            <Download></Download>
+            <span>Download</span>
+          </PopoverTrigger>
+          <PopoverContent className='w-48'>
+            <div className="flex flex-col">
+            <button
+              className="p-2 rounded-md hover:bg-slate-700 hover:text-white text-start"
+              onClick={() => {
+                setSelectedBairro("Todos");
+                setExportBairro("Todos");
+                setIsOpen(false);// Passar "Todos" como argumento
+              }}
+            >
+              Exportar Todos
+            </button>
+
+            {bairros.map((bairro, index) => (
+              <button
+                key={index}
+                className={`p-2 rounded-md hover:bg-slate-700 hover:text-white text-start`}
+                onClick={() => {
+                  setSelectedBairro(bairro);
+                  setExportBairro(bairro);
+                  setIsOpen(false);// Passar o bairro selecionado como argumento
+                }}
+              >
+                {bairro}
+              </button>
+            ))}
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
       <Table id='my-table' className='rounded-lg my-table'>
         <TableHeader className="text-white bg-slate-700 rounded-lg">

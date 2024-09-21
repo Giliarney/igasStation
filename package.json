@@ -19,7 +19,9 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "embla-carousel-autoplay": "^8.3.0",
     "embla-carousel-react": "^8.3.0",
+    "exceljs": "^4.4.0",
     "lucide-react": "^0.439.0",
     "my-app": "file:",
     "next": "^14.2.12",
@@ -31,8 +33,7 @@
     "react-spinners": "^0.14.1",
     "recharts": "^2.12.7",
     "tailwind-merge": "^2.5.2",
-    "tailwindcss-animate": "^1.0.7",
-    "xlsx": "^0.18.5"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
