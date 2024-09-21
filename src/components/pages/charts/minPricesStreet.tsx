@@ -50,25 +50,6 @@ const MinPricesStreets: React.FC = () => {
   // Filter out entries where the active chart value is 0 or missing
   const filteredData = dataStreet?.filter((post) => post[activeChart] > 0) || [];
 
-  // Initialize minPrice with a valid numeric value
-  const minPrice = filteredData.reduce<StreetMin>((min, post) => {
-    const currentPrice = post[activeChart] as number;
-    const minPriceValue = min[activeChart] as number;
-    
-    // Ensure values are treated as numbers
-    if (typeof currentPrice === 'number' && (typeof minPriceValue === 'number' && currentPrice < minPriceValue)) {
-      return post;
-    }
-    return min;
-  }, { 
-    nome: "Não tem dados com este posto e bairro",
-    diesel: 0,
-    etanol: 0,
-    gasolina_aditivada: 0,
-    gasolina_comum: 0,
-  } as StreetMin);
-
-
   return (
     <Card className="w-full">
       <CardHeader className="flex flex-col h-max border-b w-full p-0 pt-4 pb-0 lg:p-0 lg:flex-col">

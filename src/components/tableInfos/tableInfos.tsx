@@ -22,7 +22,7 @@ export interface Posto {
 export default function TableInfos({ selectedPosto, selectedStreet, selectedOrder }: { selectedPosto: string | null, selectedStreet: string | null, selectedOrder: string | null }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-  const [exportBairro, setExportBairro] = useState<string | null>("Todos");
+  const [_, setExportBairro] = useState<string | null>("Todos");
   const [isOpen, setIsOpen] = useState(false);
 
   const { data: dadosResponse, isLoading, error } = useQuery<Posto[]>({
