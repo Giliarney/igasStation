@@ -7,7 +7,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -102,8 +101,6 @@ export function TotalAveragePricesStreets() {
           return data;
         },
       });
-      
-    const data = gasPricesResponse
 
     const { data: dataStreet} = useQuery<Bairros[]>({
         queryKey: ["get-street"],

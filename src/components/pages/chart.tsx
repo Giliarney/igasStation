@@ -1,6 +1,4 @@
 "use client"
-
-import Autoplay from "embla-carousel-autoplay"
  
 import Aditivada from '@/assets/Frame 41.svg';
 import Comum from '@/assets/Frame 40.svg';
@@ -48,10 +46,6 @@ export interface EnderecoPostos {
 }
 
 export function Charts() {
-  const plugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true })
-  )
- 
   const { data: enderecoPostos, isLoading, error } = useQuery<EnderecoPostos[]>({
     queryKey: ["gets-enderecoPostos"],
     queryFn: async () => {

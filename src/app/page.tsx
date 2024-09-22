@@ -89,7 +89,7 @@ const Page: React.FC = () => {
         return
       } else {
         setSelectedStreet((prev) => (prev === value ? undefined : value));
-        setPlaceholderStreet("Selecione o  Bairro")
+        setPlaceholderGas("Selecione o  Posto")
       };
     };
     
