@@ -157,7 +157,7 @@ export default function TableInfos({
 
   return (
     <div className='flex h-full flex-col gap-4'>
-      <div className="flex sm:gap-4 items-center text-sm sm:text-base lg:absolute left-[352px]  top-[98px] relative">
+      <div className="flex sm:gap-4 items-center text-sm sm:text-base lg:absolute lg:left-[352px]  lg:top-[98px] relative">
         <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger className='bg-slate-700 text-white hover:bg-white hover:text-slate-700 hover:border rounded-lg p-2 flex items-center gap-2'>
             <Download className='h-5 w-5 sm:h-6 sm:w-6'></Download>
