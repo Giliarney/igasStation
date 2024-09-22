@@ -1,6 +1,7 @@
 "use client"
 
-import React from 'react';
+import React  from 'react';
+import { useState } from 'react';
 import Logo from '@/assets/Logo.svg';
 import { Sheet, SheetContent, SheetTrigger,} from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
@@ -13,6 +14,7 @@ interface HeaderProps {
 }
   
 const Header: React.FC<HeaderProps> = ({setView}) => {
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
         <div>
@@ -63,7 +65,7 @@ const Header: React.FC<HeaderProps> = ({setView}) => {
                     <Logo viewBox="0 -25 125 125"></Logo>
                 </div>
 
-                <Sheet>
+                <Sheet open={isOpen} onOpenChange={setIsOpen}>
                     <SheetTrigger asChild>
                         <Button size="icon" variant="outline" className='sm:hidden border-none text-slate-700 transition-all hover:bg-slate-700 hover:text-white'>
                             <Menu></Menu>
@@ -77,12 +79,12 @@ const Header: React.FC<HeaderProps> = ({setView}) => {
                                 <h1>Menu</h1>
                             </div>
 
-                            <Link href="#" onClick={() => setView('tabela')} className='flex w-96 p-4 gap-3 transition-all hover:bg-slate-700 hover:text-white'>
+                            <Link href="" onClick={() => {setView('tabela'); setIsOpen(false)}} className='flex w-96 p-4 gap-3 transition-all hover:bg-slate-700 hover:text-white'>
                                 <List></List>
                                 <span>Tabela de Preços</span>
                             </Link>
 
-                            <Link href="#" onClick={() => setView('graficos')} className='flex max-w-full p-4 gap-3 transition-all hover:bg-slate-700,text-white hover:bg-slate-700 hover:text-white'>
+                            <Link href="" onClick={() => {setView('graficos'); setIsOpen(false)}} className='flex max-w-full p-4 gap-3 transition-all hover:bg-slate-700,text-white hover:bg-slate-700 hover:text-white'>
                                 <ChartSpline></ChartSpline>
                                 <span>Gráficos</span>
                             </Link>

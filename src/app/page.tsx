@@ -27,11 +27,13 @@ export interface Postos {
 
 const Page: React.FC = () => {
     const [view, setView] = useState<"tabela" | "graficos">("tabela");
-    const [selectedPosto, setSelectedPosto] = useState<string | null>(null);
-    const [selectedStreet, setSelectedStreet] = useState('Todos');
+    const [selectedPosto, setSelectedPosto] = useState<string | undefined>(undefined);
+    const [selectedStreet, setSelectedStreet] = useState<string | undefined>("Todos");
     const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
     const [startDate, setStartDate] = React.useState<Date>();
     const [endDate, setEndDate] = React.useState<Date>();
+    const [placeHolderGas, setPlaceholderGas] = useState("Selecione o Posto");
+    const [placeHolderStreet, setPlaceholderStreet] = useState("Selecione o Bairro");
   
   
     const { data: dataStreet} = useQuery<Bairros[]>({
@@ -60,12 +62,44 @@ const Page: React.FC = () => {
   
     const streets = dataStreet || [];
     const gasStation = dataGasStation || [];
+
+    const handleValueChangeStreet = (value: string) => {
+      setSelectedPosto(value);
+
+      if (selectedStreet === "Todos"){
+        setSelectedStreet('')
+      };
+
+      if (placeHolderStreet === "Selecione o Bairro") {
+        return
+      } 
+      
+      // Toggle the selection: if it's already selected, deselect it
+      
+      // Toggle the selection: if it's already selected, deselect it
+      setSelectedStreet((prev) => (prev === value ? undefined : value));
+      setPlaceholderStreet("Selecione o Bairro")
+    };
+
+    const handleValueChangeGas = (value: string) => {
+      setSelectedStreet(value);
+      setSelectedPosto('')
+      // Toggle the selection: if it's already selected, deselect it
+      if (placeHolderGas === "Selecione o Posto") {
+        return
+      } else {
+        setSelectedStreet((prev) => (prev === value ? undefined : value));
+        setPlaceholderStreet("Selecione o  Bairro")
+      };
+    };
+    
+    
     
     return(
       <>
         <Header setView={setView}/>
-        <main className="sm:ml-14 p-12 flex items-center justify-center">
-      <section className="flex flex-col justify-center w-full gap-4 relative">
+        <main className="sm:ml-14 p-4 sm:p-12 flex items-center justify-center">
+      <section className="flex flex-col justify-center w-full gap-4 h-full relative">
         <h1 className="w-full h-16 sm:h-[82px] self-center text-center text-xl sm:text-3xl text-slate-700" hidden={view === "graficos"}>Tabela de Histórico de Preços</h1>
         {view === 'tabela' ? 
         <div className="flex flex-col sm:flex-col md:flex-row w-full justify-between items-center gap-4">
@@ -80,7 +114,7 @@ const Page: React.FC = () => {
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {startDate ? format(startDate, "PPP") : <span>Data Inicio</span>}
+                  {startDate ? format(startDate, "dd/MM/yyyy") : <span>Data Inicio</span>}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
@@ -103,7 +137,7 @@ const Page: React.FC = () => {
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {endDate ? format(endDate, "PPP") : <span>Data Fim</span>}
+                  {endDate ? format(endDate, "dd/MM/yyyy") : <span>Data Fim</span>}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
@@ -115,33 +149,31 @@ const Page: React.FC = () => {
                 />
               </PopoverContent>
             </Popover>
-          </div>
-
-          
+          </div>  
 
           <div className=" flex flex-col w-full sm:flex-row gap-4 items-center text-slate-600">
               <div className="flex w-full">
-                <Select onValueChange={(value) => setSelectedStreet(value)} disabled={selectedPosto === 'Todos'}>
-                  <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Bairro" />
-                      <MapPin className="h-4 w-4 opacity-50"></MapPin>
-                  </SelectTrigger>
-                    <SelectContent className="text-slate-600 ">
-                      <SelectItem value="Todos">Todos Bairros</SelectItem>
-                      {streets.map((item, key) => 
-                        <SelectItem key={key} value={item.bairro}>{item.bairro}</SelectItem>
-                      )}
-                    </SelectContent>
-                </Select>
+                <Select value={selectedStreet} onValueChange={handleValueChangeGas}>
+                    <SelectTrigger className="w-full">
+                        <SelectValue placeholder={placeHolderStreet} />
+                        <MapPin className="h-4 w-4 opacity-50"></MapPin>
+                    </SelectTrigger>
+                      <SelectContent className="text-slate-600 ">
+                        <SelectItem value="Todos">Todos Bairros</SelectItem>
+                        {streets.map((item, key) => 
+                          <SelectItem key={key} value={item.bairro}>{item.bairro}</SelectItem>
+                        )}
+                      </SelectContent>
+                  </Select>
               </div>
               <div className="flex w-full">
-                <Select onValueChange={(value) => setSelectedPosto(value)} disabled={selectedStreet === 'Todos'}>
+                <Select value={selectedPosto} onValueChange={handleValueChangeStreet}>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder={"Posto"}/>
+                    <SelectValue placeholder={placeHolderGas}/>
                     <Fuel className="h-4 w-4 opacity-50"></Fuel>
                   </SelectTrigger>
                   <SelectContent className="text-slate-600">
-                    <SelectItem value="Todos">Todos Postos</SelectItem>
+                    {/*<SelectItem value="Todos">Todos Postos</SelectItem>*/}
                     {gasStation.map((item, key) => 
                       <SelectItem key={key} value={item.nome}>{item.nome}</SelectItem>
                     )}
@@ -156,6 +188,7 @@ const Page: React.FC = () => {
                   </SelectTrigger>
                       <SelectContent className="text-slate-600 ">
                         <SelectItem value='bairro'>Bairro</SelectItem>
+                        <SelectItem value='data'>Data</SelectItem>
                         <SelectItem value='nome_posto'>Posto</SelectItem>
                   </SelectContent>
                 </Select>
@@ -168,6 +201,8 @@ const Page: React.FC = () => {
           selectedPosto={selectedPosto}
           selectedStreet={selectedStreet}
           selectedOrder={selectedOrder}
+          startDate={startDate}
+          endDate={endDate}
         /> : <Charts/>}
         
         </section>

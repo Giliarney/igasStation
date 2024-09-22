@@ -19,7 +19,20 @@ export interface Posto {
   diesel: number;
 }
 
-export default function TableInfos({ selectedPosto, selectedStreet, selectedOrder }: { selectedPosto: string | null, selectedStreet: string | null, selectedOrder: string | null }) {
+export default function TableInfos({ 
+  selectedPosto, 
+  selectedStreet, 
+  selectedOrder, 
+  startDate, 
+  endDate 
+  }:{ 
+    selectedPosto: string | undefined, 
+    selectedStreet: string | undefined, 
+    selectedOrder: string | null, 
+    startDate: Date | undefined, 
+    endDate: Date | undefined
+  }){
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [, setExportBairro] = useState<string | null>("Todos");
@@ -54,22 +67,31 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
   
   const data = dadosResponse || [];
 
-  const showAllData = selectedPosto === 'Todos' || selectedStreet === 'Todos' || selectedOrder === 'Todos';
-
-  const filteredData = showAllData
-  ? data
-  : data.filter(posto =>
-      (!selectedPosto || posto.posto_nome === selectedPosto) &&
-      (!selectedStreet || posto.bairro === selectedStreet)
-  );
-
+  const filteredData = data.filter(posto => {
+    const dataPosto = new Date(posto.data);
+    
+    // Verifica se todas as condições de filtragem são atendidas
+    const isInDateRange = (startDate ? dataPosto >= startDate : true) && (endDate ? dataPosto <= endDate : true);
+    const isSelectedBairro = !selectedStreet || selectedStreet === "Todos" || posto.bairro === selectedStreet;
+    const isSelectedPosto = !selectedPosto || posto.posto_nome === selectedPosto;
+  
+    return isInDateRange && isSelectedBairro && isSelectedPosto;
+  });
+  
   const sortedData = filteredData.sort((a: Posto, b: Posto) => {
     if (selectedOrder === "nome_posto") {
       return a.posto_nome.localeCompare(b.posto_nome);
     }
+    if (selectedOrder === "bairro") {
+      return a.bairro.localeCompare(b.bairro);
+    }
 
     if (selectedOrder === "bairro") {
       return a.bairro.localeCompare(b.bairro);
+    }
+
+    if (selectedOrder === "data") {
+      return a.data.localeCompare(a.data);
     }
 
     return 0;
@@ -120,7 +142,7 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
     });
 
     // Gerar arquivo Excel
-    const buffer = await workbook.xlsx.writeBuffer();
+  const buffer = await workbook.xlsx.writeBuffer();
   const blob = new Blob([buffer], { type: 'application/octet-stream' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -130,15 +152,14 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
   link.click();
   document.body.removeChild(link);
 };
-
   // Coletar todos os bairros disponíveis para o seletor
   const bairros = Array.from(new Set(allPrecos.map(item => item.bairro)));
 
   return (
-    <div className='flex flex-col gap-4'>
-      <div className="flex sm:gap-4 items-center text-sm sm:text-base lg:absolute left-[352px]  top-[98px]">
+    <div className='flex h-full flex-col gap-4'>
+      <div className="flex sm:gap-4 items-center text-sm sm:text-base lg:absolute left-[352px]  top-[98px] relative">
         <Popover open={isOpen} onOpenChange={setIsOpen}>
-          <PopoverTrigger className='bg-slate-700 text-white rounded-lg p-2 flex items-center gap-2'>
+          <PopoverTrigger className='bg-slate-700 text-white hover:bg-white hover:text-slate-700 hover:border rounded-lg p-2 flex items-center gap-2'>
             <Download className='h-5 w-5 sm:h-6 sm:w-6'></Download>
             <span className='lg:hidden'>Download</span>
           </PopoverTrigger>
@@ -172,7 +193,7 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
           </PopoverContent>
         </Popover>
       </div>
-      <Table id='my-table' className='rounded-lg my-table w-full '>
+      <Table id='my-table' className='rounded-lg my-table w-full h-full'>
         <TableHeader className="text-white bg-slate-700 rounded-lg sm:text-base text-sm">
           <TableRow className='min-w-24'>
             <TableHead className='min-w-52'>Posto</TableHead>
@@ -185,7 +206,7 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
             <TableHead className='min-w-52 text-center'>Gasolina Comum</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className='h-full'>
           {currentItems.length > 0 ? (
             currentItems.map((preco, index) => (
               <TableRow
@@ -212,9 +233,7 @@ export default function TableInfos({ selectedPosto, selectedStreet, selectedOrde
         </TableBody>
         </Table>
 
-
-
-        <div className="flex items-center bg-slate-700 p-4">
+        <div className="flex w-full items-center bg-slate-700 p-4 bottom-0">
           <Pagination className="flex w-full items-center text-slate-700">
             <PaginationContent className='flex flex-col md:flex-row gap-4 w-full items-center justify-between'>
               <div className='w-fit h-full flex items-center gap-4'>

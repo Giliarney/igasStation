@@ -117,7 +117,7 @@ const MinPricesStreets: React.FC = () => {
             <select
               value={selectedPosto}
               onChange={(e) => setSelectedPosto(e.target.value)}
-              className="border w-[120px]  sm:w-[180px] rounded hover:outline-none hover:bg-none hover:none focus:outline-none cursor-pointer text-sm h-8 text-slate-500"
+              className="border w-[120px]  sm:w-[180px] rounded hover:outline-none hover:bg-none  hover:none focus:outline-none cursor-pointer text-sm h-8 text-slate-500"
             >
               <option value="Todos" className="text-sm">Todos os Postos</option>
               {uniquePostos.map((posto) => (
@@ -136,7 +136,7 @@ const MinPricesStreets: React.FC = () => {
               <button
                 key={chart}
                 data-active={activeChart === chart}
-                className="w-full h-12 relative p-1 z-30 flex justify-center border-t text-center items-center  data-[active=true]:bg-slate-700 data-[active=true]:text-white sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
+                className="w-full h-12 relative p-1 z-30 flex justify-center border-t text-center items-center transition-all  hover:bg-slate-700 hover:text-white data-[active=true]:bg-slate-700 data-[active=true]:text-white sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
                 onClick={() => setActiveChart(chart)}
               >
                 {chartConfig[chart].label}
