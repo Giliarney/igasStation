@@ -1,5 +1,5 @@
 import Logo from '@/assets/Logo.svg';
-import { Menu, ChartSpline, FileSpreadsheet, CircleHelp, House, Phone, Table2 } from 'lucide-react';
+import { ChartSpline, FileSpreadsheet, Phone, Table2 } from 'lucide-react';
 
 const Home: React.FC = () => {
 
