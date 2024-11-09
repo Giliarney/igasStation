@@ -1,5 +1,5 @@
 "use client"
-import TableInfos from "@/components/tableInfos/tableInfos"
+import TableInfos from "@/components/pages/tableInfos/tableInfos"
 import { Select,  SelectContent,  SelectItem,  SelectTrigger,  SelectValue, } from "@/components/ui/select"
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns"
@@ -11,7 +11,9 @@ import { Calendar } from "@/components/ui/calendar"
 import {Popover,  PopoverContent,  PopoverTrigger, } from "@/components/ui/popover"
 import Header from "@/components/header";
 import { ListFilter, Fuel, MapPin  } from 'lucide-react';
-import {Charts} from '@/components/pages/chart'
+import {Charts} from '@/components/pages/charts/chart'
+import Home  from '@/components/pages/home/home';
+import Contact  from '@/components/pages/contact/contact';
 
 export interface Combustiveis {
   tipo: string;
@@ -26,7 +28,7 @@ export interface Postos {
 }
 
 const Page: React.FC = () => {
-    const [view, setView] = useState<"tabela" | "graficos">("tabela");
+    const [view, setView] = useState<"tabela" | "graficos" | "paginaInicial" | "contato" | "cadastroPosto" | "ajuda"> ("paginaInicial");
     const [selectedPosto, setSelectedPosto] = useState<string | undefined>(undefined);
     const [selectedStreet, setSelectedStreet] = useState<string | undefined>("Todos");
     const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
@@ -93,14 +95,15 @@ const Page: React.FC = () => {
       };
     };
     
-    
-    
     return(
       <>
         <Header setView={setView}/>
         <main className="sm:ml-14 p-4 sm:p-12 flex items-center justify-center">
-      <section className="flex flex-col justify-center w-full gap-4 h-full relative">
-        <h1 className="w-full h-16 sm:h-[82px] self-center text-center text-xl sm:text-3xl text-slate-700" hidden={view === "graficos"}>Tabela de Histórico de Preços</h1>
+        <section className="flex flex-col justify-center w-full gap-4 h-full relative">
+        <h1 className="w-full h-16 sm:h-[82px] self-center text-center text-xl sm:text-3xl text-slate-700" hidden={view === "paginaInicial" || view === "cadastroPosto" || view === "contato" || view ==="ajuda" || view === "graficos"}>Tabela de Histórico de Preços</h1>
+        
+        {view === 'paginaInicial' ? <Home/> : ""}
+        
         {view === 'tabela' ? 
         <div className="flex flex-col sm:flex-col md:flex-row w-full justify-between items-center gap-4">
           <div className="flex w-full gap-4 text-slate-700">
@@ -203,7 +206,27 @@ const Page: React.FC = () => {
           selectedOrder={selectedOrder}
           startDate={startDate}
           endDate={endDate}
-        /> : <Charts/>}
+        /> : ""}
+
+        {view === 'graficos' ? <Charts/> : ""}
+
+        {view === 'cadastroPosto' ? <TableInfos
+          selectedPosto={selectedPosto}
+          selectedStreet={selectedStreet}
+          selectedOrder={selectedOrder}
+          startDate={startDate}
+          endDate={endDate}
+        /> : ""}
+
+        {view === 'contato' ? <Contact/> : ""}
+
+        {view === 'ajuda' ? <TableInfos
+          selectedPosto={selectedPosto}
+          selectedStreet={selectedStreet}
+          selectedOrder={selectedOrder}
+          startDate={startDate}
+          endDate={endDate}
+        /> : ""}
         
         </section>
         </main>
