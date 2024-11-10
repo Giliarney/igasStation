@@ -75,7 +75,7 @@ const Home: React.FC = () => {
                                         <span className='text-white'>Preços Médios de Combustíveis</span>
                                     </div>
 
-                                    <div className='w-full h-full text-justify p-4'>
+                                    <div className='w-full h-full p-4'>
                                         <span className='text-base font-extralight w-full text-justify text-white'>
                                             Oferecemos relatórios de preços médios, 
                                             tanto geral quanto por bairro, com a opção 
@@ -110,78 +110,88 @@ const Home: React.FC = () => {
                     </div>
                 </section>
 
-                <section className='w-full h-full bg-slate-700 p-12 flex gap-24'>
+                <section className='w-full h-full bg-slate-700 p-12 flex gap-24 border-b border-slate-600'>
                    <div className='w-full h-full flex flex-col gap-4'>
-                        <div className='w-full flex items-center gap-4'>
-                            <Table2 className='w-24 h-24'></Table2>
-                            <h1 className='text-3xl text-slate-700'>Tabela de Preços</h1>
+                        <div className='w-full flex items-center gap-4 border-b border-slate-600 pb-4'>
+                            <Table2 className='w-20 h-20 bg-slate-50 text-slate-700 rounded-xl p-4'></Table2>
+                            <h1 className='text-2xl text-white'>Tabela de Preços</h1>
                         </div>
 
                         <span className='text-lg'>
-                            No icone de tabela você encontra registros das coletas efetuadas nos postos de gasolina 
+                            A Tabela de Preços oferece uma visão completa e atualizada dos preços de combustíveis em diferentes postos da região. 
+                            Consulte facilmente os valores praticados e compare para economizar. 
+                            Essa tabela é ideal para quem busca transparência e quer fazer escolhas conscientes. 
                         </span>
 
                    </div>
 
-                   <div>
+                   <div className='p-4 bg-slate-50 rounded-md'>
                         <img src="/assets/table.png" alt="" className='rounded-md'/>
                    </div>
 
                 </section>
 
-                <section className='w-full h-full bg-slate-700 p-12 flex gap-24'>
+                <section className='w-full h-full bg-slate-700 p-12 flex gap-24 border-b border-slate-600'>
 
-                    <div>
+                    <div className='p-4 bg-slate-50 rounded-md'>
                         <img src="/assets/charts.png" alt="" className='rounded-md'/>
                    </div>
 
                    <div className='w-full h-full flex flex-col gap-4'>
-                        <div className='w-full flex items-center gap-4'>
-                            <ChartSpline className='w-24 h-24'></ChartSpline>
-                            <h1 className='text-3xl text-slate-700'>Gráficos</h1>
+                        <div className='w-full flex items-center gap-4 border-b border-slate-600 pb-4'>
+                            <ChartSpline className='w-20 h-20 bg-slate-50 text-slate-700 rounded-xl p-4'></ChartSpline>
+                            <h1 className='text-2xl te2t-white'>Gráficos</h1>
                         </div>
 
                         <span className='text-lg'>
-                            No icone de tabela você encontra registros das coletas efetuadas nos postos de gasolina 
+                            A seção de Gráficos traz uma análise visual dos dados de preços de combustíveis, facilitando a compreensão das tendências ao longo do tempo. 
+                            Ideal para acompanhar a evolução de preços e identificar padrões de mercado. 
+                            Com gráficos interativos e personalizados, é possível ver a flutuação dos preços e tomar decisões estratégicas com base nos dados.
                         </span>
 
                    </div>
 
                 </section>
 
-                <section className='w-full h-full bg-slate-700 p-12 flex gap-24'>
+                <section className='w-full h-full bg-slate-700 p-12 flex gap-24 border-b border-slate-600'>
                    <div className='w-full h-full flex flex-col gap-4'>
-                        <div className='w-full flex items-center gap-4'>
-                            <FileSpreadsheet className='w-24 h-24'></FileSpreadsheet>
-                            <h1 className='text-3xl text-slate-700'>Tabela de Preços</h1>
+                        <div className='w-full flex items-center gap-4 border-b border-slate-600 pb-4'>
+                            <FileSpreadsheet className='w-20 h-20 bg-slate-50 text-slate-700 rounded-xl p-4'></FileSpreadsheet>
+                            <h1 className='text-2xl text-w2ite'>Registro de Coletas</h1>
                         </div>
 
                         <span className='text-lg'>
-                            No icone de tabela você encontra registros das coletas efetuadas nos postos de gasolina 
+                            Aqui, donos de postos ou os próprios usuários podem registrar coletas referentes ao estabelecimento
+                            adicionando mais informações ao site sobre preços e serviços. 
+                            O registro permite maior visibilidade para os clientes e facilita o acesso a dados precisos. 
+                            <br />
+                            Com essa ferramenta, os donos de postos têm a oportunidade de se destacar e fornecer informações detalhadas diretamente aos consumidores.
                         </span>
 
                    </div>
 
                    <div>
-                        <img src="/assets/table.png" alt="" className='rounded-md'/>
+                        <img src="/assets/Coleta.png" alt="" className='rounded-md'/>
                    </div>
 
                 </section>
 
-                <section className='w-full h-full bg-slate-700 p-12 flex gap-24'>
+                <section className='w-full h-full bg-slate-700 p-12 flex gap-24 border-b border-slate-600'>
 
                     <div>
-                        <img src="/assets/charts.png" alt="" className='rounded-md'/>
+                        <img src="/assets/Contato.png" alt="" className='rounded-md'/>
                     </div>
 
                     <div className='w-full h-full flex flex-col gap-4'>
-                        <div className='w-full flex items-center gap-4'>
-                            <Phone className='w-24 h-24'></Phone>
-                            <h1 className='text-3xl text-slate-700'>Contato</h1>
+                        <div className='w-full flex items-center gap-4 border-b border-slate-600 pb-4'>
+                            <Phone className='w-20 h-20 bg-slate-50 text-slate-700 rounded-xl p-4'></Phone>
+                            <h1 className='text-2xl text-white'>Contato</h1>
                         </div>
 
                         <span className='text-lg'>
-                            No icone de tabela você encontra registros das coletas efetuadas nos postos de gasolina 
+                        Entre em contato conosco para dúvidas, sugestões ou suporte técnico. 
+                        Estamos prontos para ajudá-lo a ter a melhor experiência com o iGasStation. 
+                        Nossa equipe está disponível para resolver qualquer problema e ouvir seu feedback para melhorar continuamente nossos serviços.
                         </span>
 
                     </div>
@@ -191,7 +201,7 @@ const Home: React.FC = () => {
                 <section className='w-full flex flex-col items-center rounded-xl'>
                     <h1 className='text-3xl p-4 border-b text-slate-700'>Tecnologias</h1>
                     
-                    <div className='w-full flex items-center justify-center gap-12 p-8'>
+                    <div className='w-full grid grid-cols-10 items-center place-items-center p-8'>
 
                         <img className='w-20' src="/assets/sdk-react-native.svg" alt="" />
                         <img className='w-36' src="/assets/tailwind-css.svg" alt="" />
@@ -205,7 +215,7 @@ const Home: React.FC = () => {
                         
                         <div className='flex flex-col items-center justify-center'> 
                             <img className='w-16' src="/assets/shadcn-ui-seeklogo.svg" alt="" />
-                            <span className='text-xl text-slate-700'>shadcn</span> 
+                            <span className='text-xl text-slate-800'>shadcn</span> 
                         </div>
                     </div>
                 </section>

@@ -10,14 +10,14 @@ import Link from "next/link"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, } from "@/components/ui/tooltip"
 
 interface HeaderProps {
-    setView: React.Dispatch<React.SetStateAction<"tabela" | "graficos" | "paginaInicial"  | "contato" | "ajuda" | "cadastroPosto">>;
+    setView: React.Dispatch<React.SetStateAction<"tabela" | "graficos" | "paginaInicial"  | "contato" | "ajuda" | "registroColeta">>;
 }
   
 const Header: React.FC<HeaderProps> = ({setView}) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [activeView, setActiveView] = useState<"tabela" | "graficos" | "paginaInicial" | "contato" | "ajuda" | "cadastroPosto">("paginaInicial");
+    const [activeView, setActiveView] = useState<"tabela" | "graficos" | "paginaInicial" | "contato" | "ajuda" | "registroColeta">("paginaInicial");
 
-        const handleItemClick = (view: "tabela" | "graficos" | "paginaInicial" | "contato" | "ajuda" | "cadastroPosto") => {
+        const handleItemClick = (view: "tabela" | "graficos" | "paginaInicial" | "contato" | "ajuda" | "registroColeta") => {
             setActiveView(view);
         setView(view);
     };
@@ -26,8 +26,8 @@ const Header: React.FC<HeaderProps> = ({setView}) => {
         <div>
             <aside className='fixed inset-y-0 left-0 z-10 hidden w-16 border-r border-slate-300 sm:flex bg-slate-50 transition-all'>
                 <nav className='w-full flex flex-col items-center py-4'>
-                    <div className='w-12 h-12 flex items-center justify-center my-3'>
-                        <Logo viewBox="0 -25 125 125"></Logo>
+                    <div className='w-12 h-12 flex items-center justify-center my-3 cursor-pointer'>
+                        <Logo viewBox="0 -25 125 125" onClick={() => handleItemClick('paginaInicial')}></Logo>
                     </div>
 
                     <TooltipProvider>
@@ -64,12 +64,12 @@ const Header: React.FC<HeaderProps> = ({setView}) => {
 
                         <Tooltip>
                             <TooltipTrigger asChild  className='border-b'>
-                                <Link href="#" onClick={() => handleItemClick('cadastroPosto')} className={`flex items-center justify-center w-full h-12 rounded-none transition-all text-slate-700 hover:bg-slate-700 hover:text-white ${activeView === "cadastroPosto" ? 'bg-slate-700 text-white' : ''}`}>
+                                <Link href="#" onClick={() => handleItemClick('registroColeta')} className={`flex items-center justify-center w-full h-12 rounded-none transition-all text-slate-700 hover:bg-slate-700 hover:text-white ${activeView === "registroColeta" ? 'bg-slate-700 text-white' : ''}`}>
                                     <FileSpreadsheet className='w-5 h-5'></FileSpreadsheet>
                                     <span className='sr-only'>Cadastro de Posto</span>
                                 </Link>
                             </TooltipTrigger>
-                            <TooltipContent side='right'>Cadastro de Posto</TooltipContent>
+                            <TooltipContent side='right'>Registro de Coleta</TooltipContent>
                         </Tooltip>
 
                         <Tooltip>
@@ -132,9 +132,9 @@ const Header: React.FC<HeaderProps> = ({setView}) => {
                             </Link>
 
                             
-                            <Link href="" onClick={() => {handleItemClick('cadastroPosto'); setIsOpen(false)}} className='flex w-96 p-4 gap-3 transition-all hover:bg-slate-700 hover:text-white'>
+                            <Link href="" onClick={() => {handleItemClick('registroColeta'); setIsOpen(false)}} className='flex w-96 p-4 gap-3 transition-all hover:bg-slate-700 hover:text-white'>
                                 <FileSpreadsheet></FileSpreadsheet>
-                                <span>Cadastro de Posto</span>
+                                <span>Registro de Coletas</span>
                             </Link>
 
                             <Link href="" onClick={() => {setView('contato'); setIsOpen(false)}} className='flex w-96 p-4 gap-3 transition-all hover:bg-slate-700 hover:text-white'>

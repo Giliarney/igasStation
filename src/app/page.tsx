@@ -14,6 +14,7 @@ import { ListFilter, Fuel, MapPin  } from 'lucide-react';
 import {Charts} from '@/components/pages/charts/chart'
 import Home  from '@/components/pages/home/home';
 import Contact  from '@/components/pages/contact/contact';
+import GasRegister from '@/components/pages/gasRegister/gasRegister';
 
 export interface Combustiveis {
   tipo: string;
@@ -28,7 +29,7 @@ export interface Postos {
 }
 
 const Page: React.FC = () => {
-    const [view, setView] = useState<"tabela" | "graficos" | "paginaInicial" | "contato" | "cadastroPosto" | "ajuda"> ("paginaInicial");
+    const [view, setView] = useState<"tabela" | "graficos" | "paginaInicial" | "contato" | "registroColeta" | "ajuda"> ("paginaInicial");
     const [selectedPosto, setSelectedPosto] = useState<string | undefined>(undefined);
     const [selectedStreet, setSelectedStreet] = useState<string | undefined>("Todos");
     const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
@@ -100,7 +101,7 @@ const Page: React.FC = () => {
         <Header setView={setView}/>
         <main className="sm:ml-14 p-4 sm:p-12 flex items-center justify-center">
         <section className="flex flex-col justify-center w-full gap-4 h-full relative">
-        <h1 className="w-full h-16 sm:h-[82px] self-center text-center text-xl sm:text-3xl text-slate-700" hidden={view === "paginaInicial" || view === "cadastroPosto" || view === "contato" || view ==="ajuda" || view === "graficos"}>Tabela de Histórico de Preços</h1>
+        <h1 className="w-full h-16 sm:h-[82px] self-center text-center text-xl sm:text-3xl text-slate-700" hidden={view === "paginaInicial" || view === "registroColeta" || view === "contato" || view ==="ajuda" || view === "graficos"}>Tabela de Histórico de Preços</h1>
         
         {view === 'paginaInicial' ? <Home/> : ""}
         
@@ -112,12 +113,12 @@ const Page: React.FC = () => {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "justify-start text-left font-normal",
+                    "justify-between text-left font-normal",
                     !startDate && "text-muted-foreground"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {startDate ? format(startDate, "dd/MM/yyyy") : <span>Data Inicio</span>}
+                  <CalendarIcon className=" h-4 w-4" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
@@ -135,12 +136,12 @@ const Page: React.FC = () => {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "justify-start text-left font-normal",
+                    "justify-between text-left font-normal",
                     !endDate && "text-muted-foreground"
                   )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  >
                   {endDate ? format(endDate, "dd/MM/yyyy") : <span>Data Fim</span>}
+                  <CalendarIcon className=" h-4 w-4" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
@@ -154,14 +155,14 @@ const Page: React.FC = () => {
             </Popover>
           </div>  
 
-          <div className=" flex flex-col w-full sm:flex-row gap-4 items-center text-slate-600">
+          <div className=" flex flex-col w-full sm:flex-row gap-4 items-center text-muted-foreground">
               <div className="flex w-full">
                 <Select value={selectedStreet} onValueChange={handleValueChangeGas}>
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder={placeHolderStreet} />
                         <MapPin className="h-4 w-4 opacity-50"></MapPin>
                     </SelectTrigger>
-                      <SelectContent className="text-slate-600 ">
+                      <SelectContent className="text-slate-600">
                         <SelectItem value="Todos">Todos Bairros</SelectItem>
                         {streets.map((item, key) => 
                           <SelectItem key={key} value={item.bairro}>{item.bairro}</SelectItem>
@@ -169,6 +170,7 @@ const Page: React.FC = () => {
                       </SelectContent>
                   </Select>
               </div>
+
               <div className="flex w-full">
                 <Select value={selectedPosto} onValueChange={handleValueChangeStreet}>
                   <SelectTrigger className="w-full">
@@ -210,13 +212,7 @@ const Page: React.FC = () => {
 
         {view === 'graficos' ? <Charts/> : ""}
 
-        {view === 'cadastroPosto' ? <TableInfos
-          selectedPosto={selectedPosto}
-          selectedStreet={selectedStreet}
-          selectedOrder={selectedOrder}
-          startDate={startDate}
-          endDate={endDate}
-        /> : ""}
+        {view === 'registroColeta' ? <GasRegister/> : ""}
 
         {view === 'contato' ? <Contact/> : ""}
 

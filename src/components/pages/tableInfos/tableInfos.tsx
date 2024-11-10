@@ -193,7 +193,7 @@ export default function TableInfos({
           </PopoverContent>
         </Popover>
       </div>
-      <Table id='my-table' className='rounded-lg my-table w-full h-full'>
+      <Table id='my-table' className='rounded-lg my-table w-full h-full  border'>
         <TableHeader className="text-white bg-slate-700 rounded-lg sm:text-base text-sm">
           <TableRow className='min-w-24'>
             <TableHead className='min-w-52'>Posto</TableHead>
@@ -211,7 +211,7 @@ export default function TableInfos({
             currentItems.map((preco, index) => (
               <TableRow
                 key={index}
-                className="hover:bg-slate-700 sm:text-base text-sm cursor-pointer hover:text-white text-slate-600 h-5"
+                className="hover:bg-slate-700 sm:text-base text-sm cursor-pointer hover:text-white text-slate-600 h-5 bg-white"
               >
                 <TableCell className=''>{preco.nome}</TableCell>
                 <TableCell className='text-center '>{preco.bandeira}</TableCell>

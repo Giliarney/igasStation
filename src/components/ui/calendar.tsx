@@ -3,6 +3,7 @@
 import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { DayPicker } from "react-day-picker"
+import { pt } from "date-fns/locale" // Importa o locale para português
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
@@ -15,10 +16,9 @@ function Calendar({
   showOutsideDays = true,
   ...props
 }: CalendarProps) {
-  const minDate = new Date(2024, 7, 22); // 22 de agosto de 2024
-  const maxDate = new Date(2024, 8, 13); // 13 de setembro de 2024
   return (
     <DayPicker
+      locale={pt} // Usando o locale português
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
       classNames={{
@@ -59,8 +59,6 @@ function Calendar({
         IconLeft: () => <ChevronLeft className="h-4 w-4" />,
         IconRight: () => <ChevronRight className="h-4 w-4" />,
       }}
-      fromDate={minDate}
-      toDate={maxDate}
       {...props}
     />
   )

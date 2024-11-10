@@ -1,0 +1,9 @@
+.PhoneInputInput {
+  border: none !important;
+  outline: none !important;
+}
+
+.PhoneInputInput:focus {
+  border: none !important;
+  outline: none !important;
+}
