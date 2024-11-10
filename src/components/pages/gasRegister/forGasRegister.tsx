@@ -138,28 +138,31 @@ export function FormGasRegister() {
               render={({ field }) => (
                 <FormItem className="text-slate-500">
                   <FormLabel className="text-slate-700">Data:</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild className="w-full">
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "justify-between text-left font-normal hover:bg-transparent hover:text-muted-foreground",
-                            !startDate && "text-muted-foreground"
-                          )}
-                        >
-                          {startDate ? format(startDate, "dd/MM/yyyy") : <span>Data da coleta</span>}
-                          <CalendarIcon className=" h-4 w-4" />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
-                        <Calendar
-                          mode="single"
-                          selected={startDate}
-                          onSelect={setStartDate}
-                          initialFocus 
-                        />
-                      </PopoverContent>
-                    </Popover>
+                    <FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild className="w-full">
+                          <Button
+                            variant={"outline"}
+                            {...field}
+                            className={cn(
+                              "justify-between text-left font-normal hover:bg-transparent hover:text-muted-foreground",
+                              !startDate && "text-muted-foreground"
+                            )}
+                          >
+                            {startDate ? format(startDate, "dd/MM/yyyy") : <span>Data da coleta</span>}
+                            <CalendarIcon className=" h-4 w-4" />
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0">
+                          <Calendar
+                            mode="single"
+                            selected={startDate}
+                            onSelect={setStartDate}
+                            initialFocus 
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

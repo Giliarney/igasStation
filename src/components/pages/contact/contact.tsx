@@ -1,5 +1,5 @@
 import { ContactForm } from "@/components/pages/contact/formContact"
-import { Linkedin, Github, Phone, Mail, House } from 'lucide-react';
+import { Linkedin, Github, Phone, Mail } from 'lucide-react';
 import Link from "next/link"
 
 const Contact: React.FC = () => {

@@ -164,6 +164,7 @@ export function ContactForm() {
                       control={form.control}
                       render={({ field }) => (
                         <PhoneInput
+                          {...field}
                           international
                           defaultCountry="BR"
                           placeholder="Digite seu telefone"
