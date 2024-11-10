@@ -160,11 +160,11 @@ export function ContactForm() {
                   <FormLabel className="text-slate-700">Telefone:</FormLabel>
                   <FormControl>
                     <Controller
+                      {...field}
                       name="phone"
                       control={form.control}
                       render={({ field }) => (
                         <PhoneInput
-                          {...field}
                           international
                           defaultCountry="BR"
                           placeholder="Digite seu telefone"
