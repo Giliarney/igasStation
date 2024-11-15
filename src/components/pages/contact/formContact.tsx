@@ -54,23 +54,44 @@ export function ContactForm() {
   })
 
   // Função de submissão
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values) // Aqui você pode enviar os dados ou fazer outra ação
-
-    toast({
-      description: "Registro efetuado com sucesso.",
-    });
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const response = await fetch('https://api-igas.onrender.com/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+  
+      if (response.ok) {
+        toast({
+          description: "E-mail enviado com sucesso.",
+        });
+      } else {
+        toast({
+          description: "Erro ao enviar e-mail. Tente novamente mais tarde.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: "Erro ao enviar e-mail. Verifique sua conexão.",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col justify-center items-center pb-2 bg-white rounded-lg border"
+        className="flex flex-col justify-center items-center pb-2 bg-white rounded-lg border p-2"
       >
-        <div className="w-full flex flex-col p-10 gap-4">
+        <div className="w-full flex flex-col p-2 xl:p-8 gap-3">
 
-          <div className="w-full grid grid-cols-2 gap-6">
+          <div className="w-full grid xl:grid-cols-2 xl:gap-6 gap-2">
             {/* Campo de Nome */}
             <FormField
               control={form.control}
@@ -124,7 +145,7 @@ export function ContactForm() {
             />
           </div>
 
-          <div className="w-full grid grid-cols-2 gap-6">
+          <div className="w-full grid xl:grid-cols-2 xl:gap-6 gap-2">
             {/* Campo de E-mail */}
             <FormField
               control={form.control}
@@ -215,16 +236,17 @@ export function ContactForm() {
           <FormDescription className="text-muted-foreground text-center">
             Envie uma mensagem sobre dúvida, sugestão para melhorias ou para propostas comerciais.
           </FormDescription>
+
+                  {/* Botão de Envio */}
+          <Button
+            type="submit"
+            className="w-72 flex gap-2 justify-center items-center hover:bg-slate-600 bg-slate-700 self-center"
+          >
+            <Send />
+            Enviar
+          </Button>
         </div>
         
-        {/* Botão de Envio */}
-        <Button
-          type="submit"
-          className="w-72 flex gap-2 justify-center items-center hover:bg-slate-600 bg-slate-700"
-        >
-          <Send />
-          Enviar
-        </Button>
       </form>
     </Form>
   )

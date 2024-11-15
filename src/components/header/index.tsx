@@ -17,8 +17,8 @@ const Header: React.FC<HeaderProps> = ({setView}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [activeView, setActiveView] = useState<"tabela" | "graficos" | "paginaInicial" | "contato" | "ajuda" | "registroColeta">("paginaInicial");
 
-        const handleItemClick = (view: "tabela" | "graficos" | "paginaInicial" | "contato" | "ajuda" | "registroColeta") => {
-            setActiveView(view);
+    const handleItemClick = (view: "tabela" | "graficos" | "paginaInicial" | "contato" | "ajuda" | "registroColeta") => {
+        setActiveView(view);
         setView(view);
     };
 
@@ -151,6 +151,7 @@ const Header: React.FC<HeaderProps> = ({setView}) => {
                     </SheetContent>
                 </Sheet>
             </header>
+            
         </div>
     );
 };

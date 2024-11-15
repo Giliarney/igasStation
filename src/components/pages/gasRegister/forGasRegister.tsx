@@ -73,6 +73,8 @@ export function FormGasRegister() {
     },
   });
 
+  const [startDate, setStartDate] = React.useState<Date>();
+
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const response = await fetch(`https://api-igas.onrender.com/coleta`, {
@@ -104,6 +106,7 @@ export function FormGasRegister() {
   
       // Limpa os campos do formulário após o envio
       form.reset();
+      setStartDate(undefined);
   
     } catch (error) {
   
@@ -117,9 +120,6 @@ export function FormGasRegister() {
     }
   };
 
-
-  const [startDate, setStartDate] = React.useState<Date>();
-
   React.useEffect(() => {
     if (startDate) {
       form.setValue("data", format(startDate, "yyyy-MM-dd")); // Converte para string
@@ -129,8 +129,8 @@ export function FormGasRegister() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-4 text-muted-foreground">
-        <div className="p-8 flex flex-col gap-4">
-          <div className="grid grid-cols-2 gap-6">
+        <div className="pt-4 md:p-8 flex flex-col md:gap-4">
+          <div className="grid md:grid-cols-2 md:gap-6">
             {/* Campo Data */}
             <FormField
               control={form.control}
@@ -194,7 +194,7 @@ export function FormGasRegister() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 md:gap-6">
             {/* Campo Posto */}
             <FormField
               control={form.control}
@@ -250,7 +250,7 @@ export function FormGasRegister() {
             />
           </div>
 
-          <FormDescription className="text-muted-foreground text-center">
+          <FormDescription className="text-muted-foreground text-center p-3">
             Registre aqui uma coleta de um posto.
           </FormDescription>
         </div>
