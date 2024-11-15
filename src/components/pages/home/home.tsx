@@ -1,18 +1,15 @@
 import Logo from '@/assets/Logo.svg';
-import { ChartSpline, FileSpreadsheet, Phone, Table2, MousePointerClick } from 'lucide-react';
+import { ChartSpline, FileSpreadsheet, Phone, Table2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { useState } from 'react';
 
 interface HomeProps {
     setView: React.Dispatch<React.SetStateAction<"tabela" | "graficos" | "paginaInicial"  | "contato" | "ajuda" | "registroColeta">>;
 }
 
 const Home: React.FC<HomeProps> = ({setView}) => {
-    const [activeView, setActiveView] = useState<"tabela" | "graficos" | "paginaInicial" | "contato" | "ajuda" | "registroColeta">("paginaInicial");
 
     const handleItemClick = (view: "tabela" | "graficos" | "paginaInicial" | "contato" | "ajuda" | "registroColeta") => {
         setView(view);
-        setActiveView(view);
     };
 
     return (
