@@ -107,7 +107,7 @@ const Page: React.FC = () => {
             {view === 'paginaInicial' ? <Home setView={setView}/> : ""}
             
             {view === 'tabela' ? 
-            <div className="flex flex-col sm:flex-col md:flex-row w-full justify-between items-center gap-4 px-6">
+            <div className="flex flex-col sm:flex-col md:flex-row w-full justify-between items-center gap-4">
               <div className="flex w-full gap-4 text-slate-700">
                 <Popover>
                   <PopoverTrigger asChild className="w-full md:w-[160px]">
