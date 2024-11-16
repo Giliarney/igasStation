@@ -36,7 +36,7 @@ const Page: React.FC = () => {
     const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
     const [startDate, setStartDate] = React.useState<Date>();
     const [endDate, setEndDate] = React.useState<Date>();
-    const [placeHolderGas, setPlaceholderGas] = useState("Todos os Postos");
+    const [placeHolderGas, setPlaceholderGas] = useState("Selecione o Posto");
     const [placeHolderStreet, setPlaceholderStreet] = useState("Selecione o Bairro");
   
   
@@ -93,7 +93,7 @@ const Page: React.FC = () => {
         return
       } else {
         setSelectedStreet((prev) => (prev === value ? undefined : value));
-        setPlaceholderGas("Todos os Postos")
+        setPlaceholderGas("Selecione o Posto")
       };
     };
     
