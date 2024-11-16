@@ -5,8 +5,8 @@ import React  from 'react';
 const Help: React.FC = () => {
 
     return (
-        <div className="mt-80 flex flex-col items-center justify-center">
-            <div className='w-[25%]'>
+        <div className="mt-72 flex flex-col items-center justify-center">
+            <div className='w-36'>
                 <img src="/assets/em-construcao.png" alt="" />
             </div>
             
