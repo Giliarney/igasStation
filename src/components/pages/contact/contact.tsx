@@ -58,19 +58,15 @@ const Contact: React.FC = () => {
                         <div className="grid grid-rows-2 text-white gap-2">
                                 
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="flex items-center justify-center h-10 bg-slate-700  hover:bg-slate-600 hover:text-white rounded-md gap-2 cursor-pointer">
-                                    <Link href='https://github.com/Giliarney' target="blank">
-                                        <Github className="w-4 xl:w-max"></Github>
-                                    </Link>
+                                <Link className="flex items-center justify-center h-10 bg-slate-700  hover:bg-slate-600 hover:text-white rounded-md gap-2 cursor-pointer" href='https://github.com/Giliarney' target="blank">
+                                    <Github className="w-4 xl:w-max"></Github>
                                     <span className="text-sm">Perfil GitHub</span>
-                                </div>
+                                </Link>
 
-                                <div className="flex items-center justify-center  h-10 bg-slate-700   hover:bg-slate-600 hover:text-white rounded-md p-2 gap-2 cursor-pointer">
-                                    <Link href='https://github.com/Giliarney' target="blank">
-                                        <Linkedin className="w-4 xl:w-max"></Linkedin>
-                                    </Link>
+                                <Link className="flex items-center justify-center h-10 bg-slate-700  hover:bg-slate-600 hover:text-white rounded-md gap-2 cursor-pointer" href='https://www.linkedin.com/in/giliarney' target="blank">
+                                    <Linkedin className="w-4 xl:w-max"></Linkedin>
                                     <span className="text-sm">Perfil Linkedin</span>
-                                </div>
+                                </Link>
                             </div>
 
                         </div>
