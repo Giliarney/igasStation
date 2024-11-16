@@ -36,6 +36,8 @@ O objetivo era criar um **sistema de banco de dados relacional** para armazenar 
 #### **Fase 1 - Projeto Conceitual:**
 - Elaboração de entidades, relacionamentos, cardinalidades, restrições e chaves primárias.
 
+!https://media.licdn.com/dms/image/v2/D4D22AQF0QuzKuwIXxg/feedshare-shrink_2048_1536/feedshare-shrink_2048_1536/0/1727047823042?e=1734566400&v=beta&t=e_Fw99QFP9PO3SXMUrLqP2Gz11GuKrAcazlmj3JCpO0
+
 #### **Fase 2 - Projeto Lógico e Físico:**
 - Conversão do modelo conceitual para o modelo lógico e implementação física no **SQL Server**.
 
