@@ -193,6 +193,7 @@ export default function TableInfos({
           </PopoverContent>
         </Popover>
       </div>
+      
       <Table id='my-table' className='rounded-lg my-table w-full h-full  border'>
         <TableHeader className="text-white bg-slate-700 rounded-lg sm:text-base text-sm">
           <TableRow className='min-w-24'>

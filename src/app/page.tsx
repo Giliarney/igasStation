@@ -101,125 +101,125 @@ const Page: React.FC = () => {
       <>
         <Header setView={setView}/>
         <main className="sm:ml-14 p-4 sm:p-12 flex items-center justify-center">
-        <section className="flex flex-col justify-center items-center w-full gap-4 h-full relative">
-          <h1 className="w-full h-16 sm:h-[82px] self-center text-center text-xl sm:text-3xl text-slate-700" hidden={view === "paginaInicial" || view === "registroColeta" || view === "contato" || view ==="ajuda" || view === "graficos"}>Tabela de Histórico de Preços</h1>
-        
-          {view === 'paginaInicial' ? <Home setView={setView}/> : ""}
+          <section className="flex flex-col justify-center w-full gap-4 h-full relative">
+            <h1 className="w-full h-16 sm:h-[82px] self-center text-center text-xl sm:text-3xl text-slate-700" hidden={view === "paginaInicial" || view === "registroColeta" || view === "contato" || view ==="ajuda" || view === "graficos"}>Tabela de Histórico de Preços</h1>
           
-          {view === 'tabela' ? 
-          <div className="flex flex-col sm:flex-col md:flex-row w-full justify-between items-center gap-4">
-            <div className="flex w-full gap-4 text-slate-700">
-              <Popover>
-                <PopoverTrigger asChild className="w-full md:w-[160px]">
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "justify-between text-left font-normal",
-                      !startDate && "text-muted-foreground"
-                    )}
-                  >
-                    {startDate ? format(startDate, "dd/MM/yyyy") : <span>Data Inicio</span>}
-                    <CalendarIcon className=" h-4 w-4" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={startDate}
-                    onSelect={setStartDate}
-                    initialFocus 
-                  />
-                </PopoverContent>
-              </Popover>
-
-              <Popover>
-                <PopoverTrigger asChild className="w-full md:w-[160px]" >
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "justify-between text-left font-normal",
-                      !endDate && "text-muted-foreground"
-                    )}
-                    >
-                    {endDate ? format(endDate, "dd/MM/yyyy") : <span>Data Fim</span>}
-                    <CalendarIcon className=" h-4 w-4" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={endDate}
-                    onSelect={setEndDate}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>  
-
-            <div className=" flex flex-col w-full sm:flex-row gap-4 items-center text-muted-foreground">
-                <div className="flex w-full">
-                  <Select value={selectedStreet} onValueChange={handleValueChangeGas}>
-                      <SelectTrigger className="w-full">
-                          <SelectValue placeholder={placeHolderStreet} />
-                          <MapPin className="h-4 w-4 opacity-50"></MapPin>
-                      </SelectTrigger>
-                        <SelectContent className="text-slate-600">
-                          <SelectItem value="Todos">Todos Bairros</SelectItem>
-                          {streets.map((item, key) => 
-                            <SelectItem key={key} value={item.bairro}>{item.bairro}</SelectItem>
-                          )}
-                        </SelectContent>
-                    </Select>
-                </div>
-
-                <div className="flex w-full">
-                  <Select value={selectedPosto} onValueChange={handleValueChangeStreet}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder={placeHolderGas}/>
-                      <Fuel className="h-4 w-4 opacity-50"></Fuel>
-                    </SelectTrigger>
-                    <SelectContent className="text-slate-600">
-                      {/*<SelectItem value="Todos">Todos Postos</SelectItem>*/}
-                      {gasStation.map((item, key) => 
-                        <SelectItem key={key} value={item.nome}>{item.nome}</SelectItem>
+            {view === 'paginaInicial' ? <Home setView={setView}/> : ""}
+            
+            {view === 'tabela' ? 
+            <div className="flex flex-col sm:flex-col md:flex-row w-full justify-between items-center gap-4 px-6">
+              <div className="flex w-full gap-4 text-slate-700">
+                <Popover>
+                  <PopoverTrigger asChild className="w-full md:w-[160px]">
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "justify-between text-left font-normal",
+                        !startDate && "text-muted-foreground"
                       )}
-                    </SelectContent>
-                  </Select>
+                    >
+                      {startDate ? format(startDate, "dd/MM/yyyy") : <span>Data Inicio</span>}
+                      <CalendarIcon className=" h-4 w-4" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={startDate}
+                      onSelect={setStartDate}
+                      initialFocus 
+                    />
+                  </PopoverContent>
+                </Popover>
+
+                <Popover>
+                  <PopoverTrigger asChild className="w-full md:w-[160px]" >
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "justify-between text-left font-normal",
+                        !endDate && "text-muted-foreground"
+                      )}
+                      >
+                      {endDate ? format(endDate, "dd/MM/yyyy") : <span>Data Fim</span>}
+                      <CalendarIcon className=" h-4 w-4" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={endDate}
+                      onSelect={setEndDate}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>  
+
+              <div className=" flex flex-col w-full sm:flex-row gap-4 items-center text-muted-foreground">
+                  <div className="flex w-full">
+                    <Select value={selectedStreet} onValueChange={handleValueChangeGas}>
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder={placeHolderStreet} />
+                            <MapPin className="h-4 w-4 opacity-50"></MapPin>
+                        </SelectTrigger>
+                          <SelectContent className="text-slate-600">
+                            <SelectItem value="Todos">Todos Bairros</SelectItem>
+                            {streets.map((item, key) => 
+                              <SelectItem key={key} value={item.bairro}>{item.bairro}</SelectItem>
+                            )}
+                          </SelectContent>
+                      </Select>
+                  </div>
+
+                  <div className="flex w-full">
+                    <Select value={selectedPosto} onValueChange={handleValueChangeStreet}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder={placeHolderGas}/>
+                        <Fuel className="h-4 w-4 opacity-50"></Fuel>
+                      </SelectTrigger>
+                      <SelectContent className="text-slate-600">
+                        {/*<SelectItem value="Todos">Todos Postos</SelectItem>*/}
+                        {gasStation.map((item, key) => 
+                          <SelectItem key={key} value={item.nome}>{item.nome}</SelectItem>
+                        )}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex w-full">
+                    <Select onValueChange={(value) => setSelectedOrder(value)}>
+                      <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Ordernar" />
+                          <ListFilter className="h-4 w-4 opacity-50"></ListFilter>
+                      </SelectTrigger>
+                          <SelectContent className="text-slate-600 ">
+                            <SelectItem value='bairro'>Bairro</SelectItem>
+                            <SelectItem value='data'>Data</SelectItem>
+                            <SelectItem value='nome_posto'>Posto</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>         
                 </div>
-                <div className="flex w-full">
-                  <Select onValueChange={(value) => setSelectedOrder(value)}>
-                    <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Ordernar" />
-                        <ListFilter className="h-4 w-4 opacity-50"></ListFilter>
-                    </SelectTrigger>
-                        <SelectContent className="text-slate-600 ">
-                          <SelectItem value='bairro'>Bairro</SelectItem>
-                          <SelectItem value='data'>Data</SelectItem>
-                          <SelectItem value='nome_posto'>Posto</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>         
-              </div>
-          </div>
-          : ""}
+            </div>
+            : ""}
 
-          {view === 'tabela' ? <TableInfos
-            selectedPosto={selectedPosto}
-            selectedStreet={selectedStreet}
-            selectedOrder={selectedOrder}
-            startDate={startDate}
-            endDate={endDate}
-          /> : ""}
+            {view === 'tabela' ? <TableInfos
+              selectedPosto={selectedPosto}
+              selectedStreet={selectedStreet}
+              selectedOrder={selectedOrder}
+              startDate={startDate}
+              endDate={endDate}
+            /> : ""}
 
-          {view === 'graficos' ? <Charts/> : ""}
+            {view === 'graficos' ? <Charts/> : ""}
 
-          {view === 'registroColeta' ? <GasRegister/> : ""}
+            {view === 'registroColeta' ? <GasRegister/> : ""}
 
-          {view === 'contato' ? <Contact/> : ""}
+            {view === 'contato' ? <Contact/> : ""}
 
-          {view === 'ajuda' ? <Help/> : ""}
-        
-        </section>
+            {view === 'ajuda' ? <Help/> : ""}
+          
+          </section>
         </main>
       </>
     );

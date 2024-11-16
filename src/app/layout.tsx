@@ -13,6 +13,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
 
   return (
     <html lang="pt-br"  
+      title="iGasStation"
     >
       <head>
         <link rel="icon" type="image/png" sizes="32x32" href="https://i.imgur.com/MKiQNpb.png"></link>
