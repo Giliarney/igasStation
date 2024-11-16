@@ -36,14 +36,23 @@ O objetivo era criar um **sistema de banco de dados relacional** para armazenar 
 #### **Fase 1 - Projeto Conceitual:**
 - Elaboração de entidades, relacionamentos, cardinalidades, restrições e chaves primárias.
 
-!https://media.licdn.com/dms/image/v2/D4D22AQF0QuzKuwIXxg/feedshare-shrink_2048_1536/feedshare-shrink_2048_1536/0/1727047823042?e=1734566400&v=beta&t=e_Fw99QFP9PO3SXMUrLqP2Gz11GuKrAcazlmj3JCpO0
+![Esquema do Banco de Dados](https://media.licdn.com/dms/image/v2/D4D22AQF0QuzKuwIXxg/feedshare-shrink_2048_1536/feedshare-shrink_2048_1536/0/1727047823042?e=1734566400&v=beta&t=e_Fw99QFP9PO3SXMUrLqP2Gz11GuKrAcazlmj3JCpO0)
 
 #### **Fase 2 - Projeto Lógico e Físico:**
 - Conversão do modelo conceitual para o modelo lógico e implementação física no **SQL Server**.
 
+![Implementação do Banco de Dados](https://media.licdn.com/dms/image/v2/D4D22AQHAJetlBEW0Hw/feedshare-shrink_2048_1536/feedshare-shrink_2048_1536/0/1727047823009?e=1734566400&v=beta&t=y_sYJKZEh_Ig9slk7LYeOS0scyqp2lm39atrZrW32_o)
+
 #### **Fase 3 - Desenvolvimento:**
 - Escolha entre criar um App ou Site (relacionado à matéria de Frontend) ou disponibilizar gráficos e planilhas com os resultados.
 - **Opção escolhida:** desenvolver um **site** como interface para visualização e análise dos dados, adiantando a matéria de Frontend.
+
+![Página Inicial](https://i.imgur.com/cOvnx2J.png)
+![Tabela de Preços](https://i.imgur.com/8mtlcJA.png)
+![Gráficos](https://i.imgur.com/6WuuSJJ.png)
+![Registro de Coletas](https://i.imgur.com/2pRou7N.png)
+![Contato](https://i.imgur.com/73Q61lB.png)
+![Ajuda](https://i.imgur.com/MZ3hJeR.png)
 
 ---
 
