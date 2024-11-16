@@ -241,7 +241,7 @@ const Home: React.FC<HomeProps> = ({setView}) => {
                     <div className='w-full grid grid-cols-10 items-center place-items-center p-8 gap-4 lg:gap-0'>
 
                         <img className='w-10 lg:w-20' src="/assets/sdk-react-native.svg" alt="" />
-                        <img className='w-18 lg:w-36' src="/assets/tailwind-css.svg" alt="" />
+                        <img className='w-20 lg:w-36' src="/assets/tailwind-css.svg" alt="" />
                         <img className='w-10 lg:w-20' src="/assets/nextjs.svg" alt="" />
                         <img className='w-6 lg:w-14' src="/assets/javascript.svg" alt="" />
                         <img className='w-8 lg:w-16' src="/assets/file-type-typescript-official.svg" alt="" />
@@ -251,8 +251,8 @@ const Home: React.FC<HomeProps> = ({setView}) => {
                         <img className='w-14 lg:w-24' src="https://global.discourse-cdn.com/flex016/uploads/render/original/2X/a/ad2cd49c57c27455f695b61f3f8a01571697b336.svg" alt="" />
                         
                         <div className='flex flex-col items-center justify-center'> 
-                            <img className='w-8 lg:w-16' src="/assets/shadcn-ui-seeklogo.svg" alt="" />
-                            <span className='text-sm lg:text-xl text-slate-800'>shadcn</span> 
+                            <img className='w-6 lg:w-16' src="/assets/shadcn-ui-seeklogo.svg" alt="" />
+                            <span className='text-xs lg:text-xl text-slate-800'>shadcn</span> 
                         </div>
                     </div>
                 </section>
@@ -261,7 +261,7 @@ const Home: React.FC<HomeProps> = ({setView}) => {
 
             <footer className='w-full bg-slate-700 flex flex-col items-center justify-center'>
 
-                <div className='flex w-[50%] justify-evenly bg-slate-100 text-slate-700 p-8 round border'>
+                <div className='flex md:w-[50%] justify-evenly gap-8 bg-slate-100 text-slate-700 p-6 md:p-8 round border'>
 
                     <div className='flex flex-col gap-4'>
                         <div>
