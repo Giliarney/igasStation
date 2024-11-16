@@ -4,29 +4,6 @@ Este projeto nasceu como parte de um desafio acadêmico e, apesar de parecer sim
 
 Com um prazo de 30 dias, optei por trabalhar sozinho em vez de formar um grupo. Foi um desafio e tanto, especialmente conciliando trabalho e estudos. Ainda há funcionalidades a serem adicionadas e ajustes a serem feitos, mas o projeto já está funcional.
 
----
-
-## Tecnologias Utilizadas
-
-### Frontend:
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-- Shadcn
-- Node.js
-
-### Backend:
-- SQL Server
-- Azure
-- JavaScript
-- Node.js
-
-### Deploy:
-- Render
-
----
-
 ## O Desafio
 
 O objetivo era criar um **sistema de banco de dados relacional** para armazenar e disponibilizar informações sobre os preços dos combustíveis da região em um período de 30 dias. 
@@ -102,11 +79,32 @@ Para facilitar a extração de informações, foram criadas consultas específic
 
 ---
 
+## Tecnologias Utilizadas
+
+### Frontend:
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Shadcn
+- Node.js
+
+### Backend:
+- SQL Server
+- Azure
+- JavaScript
+- Node.js
+
+### Deploy:
+- Render
+  
+---
+
 ## Status do Projeto
 
 - [x] Sistema funcional.
-- [ ] Adicionar mais funcionalidades.
-- [ ] Realizar ajustes e melhorias na interface e backend.
+- [x] Adicionar mais funcionalidades.
+- [x] Realizar ajustes e melhorias na interface e backend.
 
 ---
 
