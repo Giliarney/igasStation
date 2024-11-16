@@ -47,25 +47,23 @@ O objetivo era criar um **sistema de banco de dados relacional** para armazenar 
 - Escolha entre criar um App ou Site (relacionado à matéria de Frontend) ou disponibilizar gráficos e planilhas com os resultados.
 - **Opção escolhida:** desenvolver um **site** como interface para visualização e análise dos dados, adiantando a matéria de Frontend.
 
-#### **Página Inicial:**
+### **Página Inicial:**
 ![Página Inicial](https://i.imgur.com/cOvnx2J.png)
 
-#### **Tabela de Preços:**
+### **Página Tabela de Preços:**
 ![Tabela de Preços](https://i.imgur.com/8mtlcJA.png)
 
-#### **Gráficos:**
+### **Página Gráficos:**
 ![Gráficos](https://i.imgur.com/6WuuSJJ.png)
 
-#### **Registro de Coletas:**
+### **Página Registro de Coletas:**
 ![Registro de Coletas](https://i.imgur.com/2pRou7N.png)
 
-#### **Contato:**
+### **Página Contato:**
 ![Contato](https://i.imgur.com/73Q61lB.png)
 
-#### **Ajuda:**
+### **Página Ajuda:**
 ![Ajuda](https://i.imgur.com/MZ3hJeR.png)
-
-
 
 ---
 
